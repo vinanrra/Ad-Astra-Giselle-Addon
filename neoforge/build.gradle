@@ -51,6 +51,7 @@ dependencies {
 
     // Ad Astra - Optional
     implementation "mezz.jei:jei-${mc_version}-neoforge:${jei_version}"
+    compileOnly "dev.architectury:architectury-neoforge:${architectury_version}"
     compileOnly "me.shedaniel:RoughlyEnoughItems-neoforge:${rei_version}"
     //implementation "vazkii.patchouli:Patchouli:${mc_version}-${patchouli_version}"
 
