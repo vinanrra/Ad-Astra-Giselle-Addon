@@ -138,7 +138,8 @@ public class AutomationNasaWorkbenchBlockEntity extends RecipeMachineBlockEntity
 	@Override
 	public boolean canCraft()
 	{
-		return this.recipe != null && this.recipe.matches(this.recipeContainer, this.getLevel()) && ItemUtils.canAddItem(this, this.recipe.result(), OUTPUT_SLOTS);
+		long energy = MachinesConfig.AUTOMATION_NASA_WORKBENCH_ENERGY_USAGE;
+		return this.getEnergyStorage().internalExtract(energy, true) >= energy && this.recipe != null && this.recipe.matches(this.recipeContainer, this.getLevel()) && ItemUtils.canAddItem(this, this.recipe.result(), OUTPUT_SLOTS);
 	}
 
 	@Override
