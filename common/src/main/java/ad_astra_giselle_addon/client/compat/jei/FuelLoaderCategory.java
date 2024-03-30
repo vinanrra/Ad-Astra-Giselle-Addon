@@ -7,7 +7,9 @@ import ad_astra_giselle_addon.client.screen.FuelLoaderScreen;
 import ad_astra_giselle_addon.common.config.MachinesConfig;
 import ad_astra_giselle_addon.common.registry.AddonBlocks;
 import ad_astra_giselle_addon.common.registry.ObjectRegistry;
+import earth.terrarium.adastra.AdAstra;
 import earth.terrarium.adastra.client.utils.GuiUtils;
+import earth.terrarium.botarium.common.fluid.FluidConstants;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.helpers.IGuiHelper;
@@ -17,6 +19,7 @@ import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.registration.IGuiHandlerRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
 
@@ -35,7 +38,7 @@ public class FuelLoaderCategory extends AddonRecipeCategory<Fluid>
 	{
 		super.createGui(guiHelper);
 		this.background = guiHelper.createDrawable(RecipeHelper.FuelLoader.BACKGROUND_LOCATION, 0, 0, RecipeHelper.FuelLoader.BACKGROUND_WIDTH, RecipeHelper.FuelLoader.BACKGROUND_HEIGHT);
-		this.fluidOverlay = guiHelper.drawableBuilder(GuiUtils.FLUID_BAR, 0, 0, RecipeHelper.FuelLoader.TANK_WIDTH, RecipeHelper.FuelLoader.TANK_HEIGHT).setTextureSize(GuiUtils.FLUID_BAR_WIDTH, GuiUtils.FLUID_BAR_HEIGHT).build();
+		this.fluidOverlay = guiHelper.drawableBuilder(new ResourceLocation(AdAstra.MOD_ID, "textures/gui/sprites/fluid_bar.png"), 0, 0, RecipeHelper.FuelLoader.TANK_WIDTH, RecipeHelper.FuelLoader.TANK_HEIGHT).setTextureSize(GuiUtils.FLUID_BAR_WIDTH, GuiUtils.FLUID_BAR_HEIGHT).build();
 	}
 
 	@Override
@@ -54,8 +57,7 @@ public class FuelLoaderCategory extends AddonRecipeCategory<Fluid>
 	{
 		super.setRecipe(builder, recipe, focuses);
 
-		long capacity = MachinesConfig.FUEL_LOADER_FLUID_CAPACITY;
-
+		long capacity = FluidConstants.fromMillibuckets(MachinesConfig.FUEL_LOADER_FLUID_CAPACITY);
 		builder.addSlot(RecipeIngredientRole.INPUT, RecipeHelper.FuelLoader.TANK_LEFT, RecipeHelper.FuelLoader.TANK_TOP) //
 				.addFluidStack(recipe, capacity) //
 				.setFluidRenderer(capacity, false, RecipeHelper.FuelLoader.TANK_WIDTH, RecipeHelper.FuelLoader.TANK_HEIGHT) //

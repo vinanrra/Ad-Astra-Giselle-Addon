@@ -2,7 +2,6 @@ package ad_astra_giselle_addon.client.compat.rei;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import ad_astra_giselle_addon.client.screen.GuiUtils2;
 import earth.terrarium.adastra.client.utils.GuiUtils;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.impl.client.gui.widget.EntryWidget;
@@ -16,12 +15,14 @@ public class FluidTankWidget extends EntryWidget
 	}
 
 	@Override
-	public void render(GuiGraphics graphics, Rectangle bounds, int mouseX, int mouseY, float delta)
+	public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta)
 	{
-		super.render(graphics, bounds, mouseX, mouseY, delta);
+		super.render(graphics, mouseX, mouseY, delta);
+
+		Rectangle bounds = this.getBounds();
 
 		RenderSystem.disableDepthTest();
-		GuiUtils2.drawVertical(graphics, bounds.x, bounds.y, bounds.width, bounds.height, GuiUtils.FLUID_BAR, 0, 0, 1.0D);
+		graphics.blitSprite(GuiUtils.FLUID_BAR, bounds.x, bounds.y, bounds.width, bounds.height);
 		RenderSystem.enableDepthTest();
 	}
 

@@ -4,7 +4,7 @@ plugins {
 
 apply plugin: "java-library"
 	
-version = "forge-${rootProject.mc_version}-${rootProject.mod_version}"
+version = "neoforge-${rootProject.mc_version}-${rootProject.mod_version}"
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 subsystems {
