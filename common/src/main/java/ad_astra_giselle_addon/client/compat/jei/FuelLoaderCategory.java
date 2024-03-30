@@ -8,6 +8,7 @@ import ad_astra_giselle_addon.common.config.MachinesConfig;
 import ad_astra_giselle_addon.common.registry.AddonBlocks;
 import ad_astra_giselle_addon.common.registry.ObjectRegistry;
 import earth.terrarium.adastra.client.utils.GuiUtils;
+import earth.terrarium.botarium.common.fluid.FluidConstants;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.helpers.IGuiHelper;
@@ -54,8 +55,7 @@ public class FuelLoaderCategory extends AddonRecipeCategory<Fluid>
 	{
 		super.setRecipe(builder, recipe, focuses);
 
-		long capacity = MachinesConfig.FUEL_LOADER_FLUID_CAPACITY;
-
+		long capacity = FluidConstants.fromMillibuckets(MachinesConfig.FUEL_LOADER_FLUID_CAPACITY);
 		builder.addSlot(RecipeIngredientRole.INPUT, RecipeHelper.FuelLoader.TANK_LEFT, RecipeHelper.FuelLoader.TANK_TOP) //
 				.addFluidStack(recipe, capacity) //
 				.setFluidRenderer(capacity, false, RecipeHelper.FuelLoader.TANK_WIDTH, RecipeHelper.FuelLoader.TANK_HEIGHT) //
