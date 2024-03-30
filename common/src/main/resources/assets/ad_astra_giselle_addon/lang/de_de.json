@@ -3,14 +3,18 @@
   "block.ad_astra_giselle_addon.automation_nasa_workbench": "Automatisierung NASA Workbench",
   "block.ad_astra_giselle_addon.gravity_normalizer": "Schwerkraftnormalisierer (veraltet)",
   "block.ad_astra_giselle_addon.rocket_sensor": "Raketensensor",
+  
   "item.ad_astra_giselle_addon.oxygen_can": "Sauerstoffdose",
   "item.ad_astra_giselle_addon.netherite_oxygen_can": "Netherit-Sauerstoffdose",
+  
   "item.ad_astra_giselle_addon.fuel_loader.tooltip": "Versorgen Sie einen Rover oder eine Rakete in der Nähe mit Treibstoff",
   "item.ad_astra_giselle_addon.gravity_normalizer.tooltip": "Normalisiert die Schwerkraft der Lebewesen in Reichweite",
   "item.ad_astra_giselle_addon.rocket_sensor.tooltip": "Ausgabe in der Nähe von Rockets Zustand als Redstone-Signal über den Komparator",
+  
   "container.ad_astra_giselle_addon.fuel_loader": "Kraftstofflader",
   "container.ad_astra_giselle_addon.automation_nasa_workbench": "Automatisierung NASA Workbench",
   "container.ad_astra_giselle_addon.gravity_normalizer": "Schwerkraftnormalisierer",
+  
   "enchantment.ad_astra_giselle_addon.space_breathing": "Weltraumatmung",
   "enchantment.ad_astra_giselle_addon.space_breathing.desc": "Kann Ad-Astra-Dimensionen einatmen\nNutzen Sie Energie oder Haltbarkeit\nBenötigt „Sauerstoffkanister“ im Inventar",
   "enchantment.ad_astra_giselle_addon.space_fire_proof": "Weltraumfeuersicher",
@@ -19,7 +23,9 @@
   "enchantment.ad_astra_giselle_addon.acid_rain_proof.desc": "Keine Schäden durch sauren Regen in Ad-Astra-Dimensionen\nNutzen Sie Energie oder Haltbarkeit",
   "enchantment.ad_astra_giselle_addon.gravity_normalizing": "Schwerkraftnormalisierung",
   "enchantment.ad_astra_giselle_addon.gravity_normalizing.desc": "Normalisieren Sie die Schwerkraft wie die Oberwelt in Ad-Astra-Dimensionen\nNutzen Sie Energie oder Haltbarkeit",
+  
   "gui.ad_astra_giselle_addon.workingarea": "Arbeitsbereich",
+  
   "gui.ad_astra_giselle_addon.gravity_normalizer.vector_element_tooltip": "Klicken Sie auf: %1$s\nUmschalt+Klick: %2$s",
   "gui.ad_astra_giselle_addon.gravity_normalizer.length.x": "X-Länge: %s",
   "gui.ad_astra_giselle_addon.gravity_normalizer.length.y": "Y-Länge: %s",
@@ -29,16 +35,20 @@
   "gui.ad_astra_giselle_addon.gravity_normalizer.offset.z": "Z-Versatz: %s",
   "gui.ad_astra_giselle_addon.gravity_normalizer.move_to_pos": "Gehen Sie zu BottomCenter",
   "gui.ad_astra_giselle_addon.gravity_normalizer.energy_using": "%1$s ⚡ / %2$stick",
+  
   "gui.ad_astra_giselle_addon.rocket_sensor.inverted": "Ausgang umkehren",
   "gui.ad_astra_giselle_addon.rocket_sensor.current": "Aktuelle Ausgabe: %s",
+  
   "description.ad_astra_giselle_addon.can_use.cold": "Auf der kalten Dimension",
   "description.ad_astra_giselle_addon.can_use.hot": "Auf Hot Dimension",
   "can_use.ad_astra_giselle_addon.available": "Verfügbar",
   "can_use.ad_astra_giselle_addon.unavailable": "Nicht verfügbar",
+  
   "description.ad_astra_giselle_addon.charge_mode": "Lademodus",
   "chargemode.ad_astra_giselle_addon.none": "Deaktiviert",
   "chargemode.ad_astra_giselle_addon.armors": "Aktiviert: Alle Rüstungen",
   "chargemode.ad_astra_giselle_addon.all": "Aktiviert: Gesamtes Inventar",
+  
   "rocket_sensing_type.ad_astra_giselle_addon.disabled": "Deaktiviert",
   "rocket_sensing_type.ad_astra_giselle_addon.disabled.desc": "Geben Sie immer %1$s aus",
   "rocket_sensing_type.ad_astra_giselle_addon.found": "Rakete gefunden",
@@ -50,10 +60,14 @@
   "rocket_sensing_type.ad_astra_giselle_addon.launch_countdown": "Countdown starten",
   "rocket_sensing_type.ad_astra_giselle_addon.launch_countdown.desc1": "Ausgabe analog zum Start-Countdown",
   "rocket_sensing_type.ad_astra_giselle_addon.launch_countdown.desc2": "Ausgang zunächst 0, erhöht sich mit zunehmendem Countdown",
+  
+  
   "jei.category.ad_astra_giselle_addon.fuel_loader": "Kraftstofflader",
   "jei.info.ad_astra_giselle_addon.fuel_loader": "Kann Flüssigkeit mit dem Tag „%2$s“ empfangen.\nGeben Sie dann dem Rover oder der Rakete innerhalb von %1$s Blöcken Treibstoff.",
   "jei.info.ad_astra_giselle_addon.gravity_normalizer": "Normalisieren Sie die Schwerkraft des Lebens durch die Überwelt im Arbeitsbereich.\nDie maximale Länge beträgt %1$s.",
   "jei.info.ad_astra_giselle_addon.rocket_sensor": "Finde Rocket innerhalb von %1$s Blöcken.\nGeben Sie dann den Status dieser Rakete als Redstone-Signal über den Komparator aus.\nDer Signaltyp kann in der GUI geändert werden.",
+  
+  
   "module.ad_astra_giselle_addon.space_breathing_unit": "Weltraumatmende Einheit",
   "description.ad_astra_giselle_addon.space_breathing_unit": "Kann Ad-Astra-Dimensionen einatmen\nFüllt den gehaltenen Gegenstand auch bei Regen oder Wasser mit Sauerstoff\nBenötigt „Sauerstoffkanister“ im Inventar",
   "module.ad_astra_giselle_addon.space_fire_proof_unit": "Weltraumfeuersichere Einheit",
@@ -62,18 +76,24 @@
   "description.ad_astra_giselle_addon.acid_rain_proof_unit": "Keine Schäden durch sauren Regen in Ad-Astra-Dimensionen",
   "module.ad_astra_giselle_addon.gravity_normalizing_unit": "Schwerkraftnormalisierungseinheit",
   "description.ad_astra_giselle_addon.gravity_normalizing_unit": "Normalisieren Sie die Schwerkraft wie die Oberwelt in Ad-Astra-Dimensionen",
+  
+  
   "item.ad_astra_giselle_addon.pneumatic_space_breathing_upgrade": "Space Breathing-Upgrade",
   "item.ad_astra_giselle_addon.pneumatic_space_fire_proof_upgrade": "Upgrade auf Weltraum-Brandschutz",
   "item.ad_astra_giselle_addon.pneumatic_acid_rain_proof_upgrade": "Upgrade gegen sauren Regen",
   "item.ad_astra_giselle_addon.pneumatic_gravity_normalizing_upgrade": "Schwerkraftnormalisierendes Upgrade",
+  
   "pneumaticcraft.armor.upgrade.ad_astra_giselle_addon.space_breathing": "Weltraumatmung",
   "pneumaticcraft.armor.upgrade.ad_astra_giselle_addon.space_fire_proof": "Weltraumfeuersicher",
   "pneumaticcraft.armor.upgrade.ad_astra_giselle_addon.acid_rain_proof": "Beständig gegen sauren Regen",
   "pneumaticcraft.armor.upgrade.ad_astra_giselle_addon.gravity_normalizing": "Schwerkraftnormalisierung",
+  
   "pneumaticcraft.gui.tab.info.item.armor.generic.ad_astra_giselle_addon.space_breathingUpgrade": "Kann Ad-Astra-Dimensionen einatmen\nBenötigt „Sauerstoffkanister“ im Inventar",
   "pneumaticcraft.gui.tab.info.item.armor.generic.ad_astra_giselle_addon.space_fire_proofUpgrade": "Setzen Sie Spieler in Ad Astra-Dimensionen nicht in Brand",
   "pneumaticcraft.gui.tab.info.item.armor.generic.ad_astra_giselle_addon.acid_rain_proofUpgrade": "Keine Schäden durch sauren Regen in Ad-Astra-Dimensionen",
   "pneumaticcraft.gui.tab.info.item.armor.generic.ad_astra_giselle_addon.gravity_normalizingUpgrade": "Normalisieren Sie die Schwerkraft wie die Oberwelt in Ad-Astra-Dimensionen",
+  
+  
   "config.ad_astra_giselle_addon.items": "Artikel",
   "config.ad_astra_giselle_addon.items.oxygen_chargers": "Sauerstoffdosen (üblich)",
   "config.ad_astra_giselle_addon.items.oxygen_chargers_distribution_interval": "Verteilungsintervall [Ticks]",
@@ -168,5 +188,6 @@
   "config.ad_astra_giselle_addon.compats.pneumaticcraft.upgades_gravity_normalizing": "Schwerkraftnormalisierendes Upgrade",
   "config.ad_astra_giselle_addon.compats.pneumaticcraft.upgades_gravity_normalizing_air_using": "Luftverbrauch",
   "config.ad_astra_giselle_addon.compats.pneumaticcraft.upgades_gravity_normalizing_air_using.comment": "Luftverbrauch zum Nachweis [alle 10 Ticks]",
+  
   "_eof": "eof"
 }
