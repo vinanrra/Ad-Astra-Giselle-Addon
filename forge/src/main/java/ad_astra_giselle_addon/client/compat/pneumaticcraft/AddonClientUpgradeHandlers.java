@@ -9,8 +9,8 @@ import ad_astra_giselle_addon.client.compat.pneumaticcraft.pneumatic_armor.handl
 import ad_astra_giselle_addon.client.compat.pneumaticcraft.pneumatic_armor.handlers.OxygenProofClientHandler;
 import ad_astra_giselle_addon.common.compat.pneumaticcraft.AddonCommonUpgradeHandlers;
 import ad_astra_giselle_addon.common.compat.pneumaticcraft.pneumatic_armor.handlers.GravityProofCommonHandler;
-import ad_astra_giselle_addon.common.compat.pneumaticcraft.pneumatic_armor.handlers.OxygenProofCommonHandler;
 import ad_astra_giselle_addon.common.compat.pneumaticcraft.pneumatic_armor.handlers.HotTemperatureProofCommonHandler;
+import ad_astra_giselle_addon.common.compat.pneumaticcraft.pneumatic_armor.handlers.OxygenProofCommonHandler;
 import ad_astra_giselle_addon.common.compat.pneumaticcraft.pneumatic_armor.handlers.VenusAcidProofCommonHandler;
 import me.desht.pneumaticcraft.api.client.pneumatic_helmet.IArmorUpgradeClientHandler;
 import me.desht.pneumaticcraft.api.client.pneumatic_helmet.IArmorUpgradeClientHandler.SimpleToggleableHandler;

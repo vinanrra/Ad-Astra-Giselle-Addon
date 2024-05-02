@@ -3,8 +3,8 @@ package ad_astra_giselle_addon.common.registry;
 import ad_astra_giselle_addon.common.AdAstraGiselleAddon;
 import ad_astra_giselle_addon.common.enchantment.EnchantmentAcidRainProof;
 import ad_astra_giselle_addon.common.enchantment.EnchantmentGravityProof;
-import ad_astra_giselle_addon.common.enchantment.EnchantmentOxygenProof;
 import ad_astra_giselle_addon.common.enchantment.EnchantmentHotTemperatureProof;
+import ad_astra_giselle_addon.common.enchantment.EnchantmentOxygenProof;
 import net.minecraft.core.Registry;
 import net.minecraft.world.item.enchantment.Enchantment;
 
