@@ -8,6 +8,7 @@ import ad_astra_giselle_addon.common.enchantment.EnchantmentHelper2;
 import ad_astra_giselle_addon.common.entity.LivingHelper;
 import ad_astra_giselle_addon.common.item.ItemStackReference;
 import ad_astra_giselle_addon.common.item.ItemUsableResource;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.enchantment.Enchantment;
 
@@ -17,21 +18,22 @@ public abstract class ProofEnchantmentFunction implements ProofFunction
 	public int provide(LivingEntity living)
 	{
 		@NotNull
-		Pair<ItemStackReference, Integer> pair = EnchantmentHelper2.getEnchantmentItemAndLevel(this.getEnchantment(), living);
-		ItemStackReference enchantedItem = pair.getFirst();
+		Pair<EquipmentSlot, Integer> pair = EnchantmentHelper2.getEnchantmentItemAndLevel(this.getEnchantment(), living);
+		EquipmentSlot slot = pair.getFirst();
 		int enchantLevel = pair.getSecond();
 
-		if (enchantedItem == null || enchantLevel == 0)
+		if (slot == null || enchantLevel == 0)
 		{
 			return 0;
 		}
 		else if (LivingHelper.isPlayingMode(living))
 		{
+			ItemStackReference enchantedItem = LivingHelper.getEquipmentItem(living, slot);
 			ItemUsableResource resource = ItemUsableResource.first(enchantedItem.getStack());
 
-			if (resource != null && this.consume(living, enchantedItem, resource, true))
+			if (resource != null && this.consume(living, slot, enchantedItem, resource, true))
 			{
-				this.consume(living, enchantedItem, resource, false);
+				this.consume(living, slot, enchantedItem, resource, false);
 				return this.getProofDuration(resource);
 			}
 
@@ -44,10 +46,10 @@ public abstract class ProofEnchantmentFunction implements ProofFunction
 
 	}
 
-	public boolean consume(LivingEntity living, ItemStackReference enchantedItem, ItemUsableResource resource, boolean simulate)
+	public boolean consume(LivingEntity living, EquipmentSlot slot, ItemStackReference enchantedItem, ItemUsableResource resource, boolean simulate)
 	{
 		long extracting = this.getResourceUsingAmount(resource);
-		long extracted = resource.extract(enchantedItem, extracting, simulate);
+		long extracted = resource.extract(living, slot, enchantedItem, extracting, simulate);
 		return extracted >= extracting;
 	}
 
