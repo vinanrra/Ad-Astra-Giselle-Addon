@@ -12,8 +12,6 @@ import org.jetbrains.annotations.NotNull;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 
-import ad_astra_giselle_addon.common.item.ItemStackConsumers;
-import ad_astra_giselle_addon.common.item.ItemStackReference;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
@@ -84,7 +82,7 @@ public class EnchantmentHelper2
 	}
 
 	@NotNull
-	public static Pair<ItemStackReference, Integer> getEnchantmentItemAndLevel(Enchantment enchantment, LivingEntity living)
+	public static Pair<EquipmentSlot, Integer> getEnchantmentItemAndLevel(Enchantment enchantment, LivingEntity living)
 	{
 		Map<EquipmentSlot, ItemStack> map = enchantment.getSlotItems(living);
 		EquipmentSlot slot = null;
@@ -104,7 +102,7 @@ public class EnchantmentHelper2
 
 		if (slot != null)
 		{
-			return Pair.of(new ItemStackReference(living.getItemBySlot(slot), ItemStackConsumers.equipment(slot, living::setItemSlot)), level);
+			return Pair.of(slot, level);
 		}
 		else
 		{

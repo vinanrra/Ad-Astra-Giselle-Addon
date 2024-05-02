@@ -12,6 +12,7 @@ import ad_astra_giselle_addon.common.registry.AddonEnchantments;
 import earth.terrarium.botarium.common.fluid.FluidConstants;
 import earth.terrarium.botarium.common.fluid.base.FluidContainer;
 import earth.terrarium.botarium.common.fluid.base.FluidHolder;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.enchantment.Enchantment;
 
@@ -24,9 +25,9 @@ public class OxygenProofEnchantmentFunction extends ProofEnchantmentFunction
 	}
 
 	@Override
-	public boolean consume(LivingEntity living, ItemStackReference enchantedItem, ItemUsableResource resource, boolean simulate)
+	public boolean consume(LivingEntity living, EquipmentSlot slot, ItemStackReference enchantedItem, ItemUsableResource resource, boolean simulate)
 	{
-		if (!super.consume(living, enchantedItem, resource, simulate))
+		if (!super.consume(living, slot, enchantedItem, resource, simulate))
 		{
 			return false;
 		}
