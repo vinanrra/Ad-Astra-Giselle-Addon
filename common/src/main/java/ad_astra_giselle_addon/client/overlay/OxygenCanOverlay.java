@@ -1,9 +1,13 @@
 package ad_astra_giselle_addon.client.overlay;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+
 import ad_astra_giselle_addon.common.content.oxygen.OxygenChargerUtils;
+import ad_astra_giselle_addon.common.registry.AddonEnchantments;
 import ad_astra_giselle_addon.common.registry.AddonItems;
 import ad_astra_giselle_addon.common.util.TranslationUtils;
 import earth.terrarium.adastra.client.config.AdAstraConfigClient;
+import earth.terrarium.adastra.client.screens.player.OverlayScreen;
 import earth.terrarium.adastra.common.items.armor.SpaceSuitItem;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
@@ -13,6 +17,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 
 public class OxygenCanOverlay
 {
@@ -45,7 +50,36 @@ public class OxygenCanOverlay
 				guiGraphics.drawString(font, component, Math.max(x, 0), y, 0xFFFFFF);
 			});
 		}
+		else if (EnchantmentHelper.getEnchantmentLevel(AddonEnchantments.OXYGEN_PROOF.get(), player) > 0)
+		{
+			OxygenChargerUtils.getExtractableStoredRatio(player).ifPresent(ratio ->
+			{
+				renderOxygenCanTank(guiGraphics, minecraft, ratio);
+			});
 
+		}
+
+	}
+
+	public static void renderOxygenCanTank(GuiGraphics graphics, Minecraft minecraft, double oxygenRatio)
+	{
+		int barHeight = (int) (oxygenRatio * 52);
+
+		int x = AdAstraConfigClient.oxygenBarX;
+		int y = AdAstraConfigClient.oxygenBarY;
+		float scale = AdAstraConfigClient.oxygenBarScale;
+
+		PoseStack poseStack = graphics.pose();
+		poseStack.pushPose();
+		poseStack.scale(scale, scale, scale);
+		graphics.blit(OverlayScreen.OXYGEN_TANK_EMPTY, x, y, 0, 0, 62, 52, 62, 52);
+		graphics.blit(OverlayScreen.OXYGEN_TANK, x, y + 52 - barHeight, 0, 52 - barHeight, 62, barHeight, 62, 52);
+
+		var font = minecraft.font;
+		var text = Component.translatable(OXYGENCAN_DESCRIPTION_ID).append(": ").append(Component.empty().append(TranslationUtils.formatPercent(oxygenRatio)).withStyle(s -> s.withColor(Mth.hsvToRgb((float) (oxygenRatio / 3.0F), 1.0F, 1.0F))));
+		int textWidth = font.width(text);
+		graphics.drawString(font, text, (int) (x + (62 - textWidth) / 2f), y + 52 + 3, 0xFFFFFF);
+		poseStack.popPose();
 	}
 
 }
