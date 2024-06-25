@@ -7,6 +7,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.Nullable;
 
 import ad_astra_giselle_addon.common.config.MachinesConfig;
+import ad_astra_giselle_addon.common.entity.VehicleFuelInformation;
 import ad_astra_giselle_addon.common.entity.VehicleHelper;
 import ad_astra_giselle_addon.common.fluid.FluidPredicates;
 import ad_astra_giselle_addon.common.fluid.FluidUtils2;
@@ -253,12 +254,12 @@ public class FuelLoaderBlockEntity extends ContainerMachineBlockEntity implement
 
 	private FluidHolder giveFuel(Vehicle vehicle, long transfer)
 	{
-		FluidContainer to = VehicleHelper.getFluidContainer(vehicle);
+		VehicleFuelInformation fuelInfo = VehicleHelper.getFuelInformation(vehicle);
 
-		if (to != null)
+		if (fuelInfo != null)
 		{
 			FluidContainer from = FluidContainer.of(this, null);
-			FluidHolder moved = FluidUtils2.moveFluidAny(from, to, FluidPredicates::isFuel, transfer, false);
+			FluidHolder moved = FluidUtils2.moveFluidAny(from, fuelInfo.fuelTank(), fluid -> fluid.is(fuelInfo.fuelTag()), transfer, false);
 			return moved;
 		}
 		else
