@@ -25,10 +25,10 @@ public final class AddonMekanismConfig
 	public static int MODULES_OXYGEN_PROOF_ENERGY_USING_PRODUCE = 200;
 
 	public static final String MODULES_HOT_TEMPERATURE_PROOF_ID = MODULES_ID + "_space_fire_proof";
-	public static final String HOT_TEMPERATURE_MODULES_PROOF_PREFIX = PREFIX + "." + MODULES_HOT_TEMPERATURE_PROOF_ID;
-	@ConfigSeparator(translation = HOT_TEMPERATURE_MODULES_PROOF_PREFIX)
-	@ConfigEntry(id = MODULES_HOT_TEMPERATURE_PROOF_ID + "_energy_using", type = EntryType.INTEGER, translation = HOT_TEMPERATURE_MODULES_PROOF_PREFIX + "_energy_using")
-	@Comment(value = "Energy usage for proof in every ticks " + EnchantmentsConfig.GENERAL_ENERGY_INTERVAL_TOOLTIP, translation = HOT_TEMPERATURE_MODULES_PROOF_PREFIX + "_energy_using.comment")
+	public static final String MODULES_HOT_TEMPERATURE_PROOF_PREFIX = PREFIX + "." + MODULES_HOT_TEMPERATURE_PROOF_ID;
+	@ConfigSeparator(translation = MODULES_HOT_TEMPERATURE_PROOF_PREFIX)
+	@ConfigEntry(id = MODULES_HOT_TEMPERATURE_PROOF_ID + "_energy_using", type = EntryType.INTEGER, translation = MODULES_HOT_TEMPERATURE_PROOF_PREFIX + "_energy_using")
+	@Comment(value = "Energy usage for proof in every ticks " + EnchantmentsConfig.GENERAL_ENERGY_INTERVAL_TOOLTIP, translation = MODULES_HOT_TEMPERATURE_PROOF_PREFIX + "_energy_using.comment")
 	public static int MODULES_HOT_TEMPERATURE_PROOF_ENERGY_USING = 10 * ProofAbstractUtils.GENERAL_PROOF_INTERVAL;
 
 	public static final String MODULES_ACID_RAIN_PROOF_ID = MODULES_ID + "_acid_rain_proof";

@@ -31,17 +31,17 @@ public final class AddonPneumaticCraftConfig
 	@Comment(value = "Air usage for proof " + EnchantmentsConfig.GENERAL_ENERGY_INTERVAL_TOOLTIP, translation = HOT_TEMPERATURE_PROOF_PREFIX + "_air_using.comment")
 	public static int HOT_TEMPERATURE_PROOF_AIR_USING = 5 * ProofAbstractUtils.GENERAL_PROOF_INTERVAL;
 
-	public static final String ACID_RAIN_PROOFID = UPGRADE_ID + "_acid_rain_proof";
-	public static final String ACID_RAIN_PROOF_PREFIX = PREFIX + "." + ACID_RAIN_PROOFID;
+	public static final String ACID_RAIN_PROOF_ID = UPGRADE_ID + "_acid_rain_proof";
+	public static final String ACID_RAIN_PROOF_PREFIX = PREFIX + "." + ACID_RAIN_PROOF_ID;
 	@ConfigSeparator(translation = ACID_RAIN_PROOF_PREFIX)
-	@ConfigEntry(id = ACID_RAIN_PROOFID + "_air_using", type = EntryType.INTEGER, translation = ACID_RAIN_PROOF_PREFIX + "_air_using")
+	@ConfigEntry(id = ACID_RAIN_PROOF_ID + "_air_using", type = EntryType.INTEGER, translation = ACID_RAIN_PROOF_PREFIX + "_air_using")
 	@Comment(value = "Air usage for proof " + EnchantmentsConfig.GENERAL_ENERGY_INTERVAL_TOOLTIP, translation = ACID_RAIN_PROOF_PREFIX + "_air_using.comment")
 	public static int ACID_RAIN_PROOF_AIR_USING = 5 * ProofAbstractUtils.GENERAL_PROOF_INTERVAL;
 
-	public static final String GRAVITY_PROOFID = UPGRADE_ID + "_gravity_normalizing";
-	public static final String GRAVITY_PROOF_PREFIX = PREFIX + "." + GRAVITY_PROOFID;
+	public static final String GRAVITY_PROOF_ID = UPGRADE_ID + "_gravity_normalizing";
+	public static final String GRAVITY_PROOF_PREFIX = PREFIX + "." + GRAVITY_PROOF_ID;
 	@ConfigSeparator(translation = GRAVITY_PROOF_PREFIX)
-	@ConfigEntry(id = GRAVITY_PROOFID + "_air_using", type = EntryType.INTEGER, translation = GRAVITY_PROOF_PREFIX + "_air_using")
+	@ConfigEntry(id = GRAVITY_PROOF_ID + "_air_using", type = EntryType.INTEGER, translation = GRAVITY_PROOF_PREFIX + "_air_using")
 	@Comment(value = "Air usage for proof " + EnchantmentsConfig.GENERAL_ENERGY_INTERVAL_TOOLTIP, translation = GRAVITY_PROOF_PREFIX + "_air_using.comment")
 	public static int GRAVITY_PROOF_AIR_USING = 5 * ProofAbstractUtils.GENERAL_PROOF_INTERVAL;
 }
