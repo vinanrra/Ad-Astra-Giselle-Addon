@@ -7,7 +7,6 @@ import com.teamresourceful.resourcefulconfig.common.annotations.ConfigSeparator;
 import com.teamresourceful.resourcefulconfig.common.config.EntryType;
 
 import ad_astra_giselle_addon.common.content.proof.ProofAbstractUtils;
-import ad_astra_giselle_addon.common.fluid.FluidHooks2;
 
 @Category(id = EnchantmentsConfig.ID, translation = EnchantmentsConfig.PREFIX)
 public final class EnchantmentsConfig
@@ -28,19 +27,6 @@ public final class EnchantmentsConfig
 
 	public static final String OXYGEN_PROOF_ID = "space_breathing";
 	public static final String OXYGEN_PROOF_PREFIX = PREFIX + "." + OXYGEN_PROOF_ID;
-	@ConfigSeparator(translation = OXYGEN_PROOF_PREFIX)
-	@ConfigEntry(id = OXYGEN_PROOF_ID + "_energy_using", type = EntryType.INTEGER, translation = OXYGEN_PROOF_PREFIX + "_energy_using")
-	@Comment(value = "Energy usage for breath " + OXYGEN_ENERGY_INTERVAL_TOOLTIP, translation = OXYGEN_PROOF_PREFIX + "_energy_using.comment")
-	public static int OXYGEN_PROOF_ENERGY_USING = 30;
-	@ConfigEntry(id = OXYGEN_PROOF_ID + "_durability_oxygen", type = EntryType.LONG, translation = OXYGEN_PROOF_PREFIX + "_durability_oxygen")
-	@Comment(value = "Oxygen usage on using durability", translation = OXYGEN_PROOF_PREFIX + "_durability_oxygen.comment")
-	public static long OXYGEN_PROOF_DURABILITY_OXYGEN = 2 * FluidHooks2.MILLI_BUCKET;
-	@ConfigEntry(id = OXYGEN_PROOF_ID + "_durability_using", type = EntryType.INTEGER, translation = OXYGEN_PROOF_PREFIX + "_durability_using")
-	@Comment(value = "Durability usage for breath", translation = OXYGEN_PROOF_PREFIX + "_durability_using.comment")
-	public static int OXYGEN_PROOF_DURABILITY_USING = 1;
-	@ConfigEntry(id = OXYGEN_PROOF_ID + "_durability_duration", type = EntryType.INTEGER, translation = OXYGEN_PROOF_PREFIX + "_durability_duration")
-	@Comment(value = "Breath duration on using durability " + OXYGEN_DURABILITY_TICKS_TOOLTIP, translation = OXYGEN_PROOF_PREFIX + "_durability_duration.comment")
-	public static int OXYGEN_PROOF_DURABILITY_DURATION = 2 * ProofAbstractUtils.OXYGEN_PROOF_INTERVAL;
 
 	public static final String HOT_TEMPERATURE_PROOF_ID = "space_fire_proof";
 	public static final String HOT_TEMPERATURE_PROOF_PREFIX = PREFIX + "." + HOT_TEMPERATURE_PROOF_ID;

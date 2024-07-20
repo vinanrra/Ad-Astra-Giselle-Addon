@@ -20,9 +20,6 @@ public final class AddonMekanismConfig
 	public static final String MODULES_OXYGEN_PROOF_ID = MODULES_ID + "_space_breathing";
 	public static final String MODULES_OXYGEN_PROOF_PREFIX = PREFIX + "." + MODULES_OXYGEN_PROOF_ID;
 	@ConfigSeparator(translation = MODULES_OXYGEN_PROOF_PREFIX)
-	@ConfigEntry(id = MODULES_OXYGEN_PROOF_ID + "_energy_using_provide", type = EntryType.INTEGER, translation = MODULES_OXYGEN_PROOF_PREFIX + "_energy_using_provide")
-	@Comment(value = "Energy usage for provide oxygen " + EnchantmentsConfig.OXYGEN_ENERGY_INTERVAL_TOOLTIP, translation = MODULES_OXYGEN_PROOF_PREFIX + "_energy_using_provide.comment")
-	public static int MODULES_OXYGEN_PROOF_ENERGY_USING_PROVIDE = 10 * ProofAbstractUtils.OXYGEN_PROOF_INTERVAL;
 	@ConfigEntry(id = MODULES_OXYGEN_PROOF_ID + "_energy_using_produce", type = EntryType.INTEGER, translation = MODULES_OXYGEN_PROOF_PREFIX + "_energy_using_produce")
 	@Comment(value = "Energy usage per mb when produce Mekanism oxygen to player in water, rain", translation = MODULES_OXYGEN_PROOF_PREFIX + "_energy_using_produce.comment")
 	public static int MODULES_OXYGEN_PROOF_ENERGY_USING_PRODUCE = 200;

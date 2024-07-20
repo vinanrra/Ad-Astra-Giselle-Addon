@@ -13,6 +13,7 @@ import me.desht.pneumaticcraft.api.tileentity.IAirHandler;
 import me.desht.pneumaticcraft.api.tileentity.IAirHandlerItem;
 import me.desht.pneumaticcraft.common.item.PneumaticArmorItem;
 import me.desht.pneumaticcraft.common.pneumatic_armor.CommonArmorHandler;
+import net.minecraft.world.effect.MobEffectUtil;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -32,19 +33,22 @@ public class PneumaticCraftProofProvidingHandler
 			return;
 		}
 
-		int airSupply = living.getAirSupply();
-		int maxAirSupply = living.getMaxAirSupply();
-		int airDuration = ProofAbstractUtils.OXYGEN_PROOF_INTERVAL;
-
-		if (maxAirSupply - airSupply >= airDuration)
+		if (living.canDrownInFluidType(living.getEyeInFluidType()) && !MobEffectUtil.hasWaterBreathing(living))
 		{
-			OxygenProofCommonHandler upgradeHandler = AddonCommonUpgradeHandlers.OXYGEN_PROOF;
-			int airUsing = AddonPneumaticCraftConfig.OXYGEN_PROOF_AIR_USING;
-			long oxygenUsing = ProofAbstractUtils.OXYGEN_PROOF_USING;
+			int airSupply = living.getAirSupply();
+			int maxAirSupply = living.getMaxAirSupply();
+			int airDuration = ProofAbstractUtils.OXYGEN_PROOF_INTERVAL;
 
-			if (this.useAirAndOxygen(living, upgradeHandler, airUsing, oxygenUsing, false))
+			if (maxAirSupply - airSupply >= airDuration)
 			{
-				living.setAirSupply(airSupply + airDuration);
+				OxygenProofCommonHandler upgradeHandler = AddonCommonUpgradeHandlers.OXYGEN_PROOF;
+				int airUsing = AddonPneumaticCraftConfig.OXYGEN_PROOF_AIR_USING;
+
+				if (this.useAir(living, upgradeHandler, airUsing, false))
+				{
+					living.setAirSupply(airSupply + airDuration);
+				}
+
 			}
 
 		}
@@ -55,10 +59,9 @@ public class PneumaticCraftProofProvidingHandler
 	{
 		if (entity instanceof LivingEntity living)
 		{
-			OxygenProofCommonHandler upgradeHandler = AddonCommonUpgradeHandlers.OXYGEN_PROOF;
-			int airUsing = AddonPneumaticCraftConfig.OXYGEN_PROOF_AIR_USING;
+			IArmorUpgradeHandler<?> upgradeHandler = AddonCommonUpgradeHandlers.OXYGEN_PROOF;
 			long oxygenUsing = ProofAbstractUtils.OXYGEN_PROOF_USING;
-			return this.useAirAndOxygen(living, upgradeHandler, airUsing, oxygenUsing, false) ? ProofAbstractUtils.OXYGEN_PROOF_INTERVAL : 0;
+			return this.useAir(living, upgradeHandler, 0, false) && this.useOxygen(living, oxygenUsing, false) ? ProofAbstractUtils.OXYGEN_PROOF_INTERVAL : 0;
 		}
 		else
 		{
@@ -112,32 +115,23 @@ public class PneumaticCraftProofProvidingHandler
 
 	}
 
-	public boolean useAirAndOxygen(LivingEntity living, OxygenProofCommonHandler upgradeHandler, int airUsing, long oxygenUsing, boolean simulate)
+	public boolean useOxygen(LivingEntity living, long oxygenUsing, boolean simulate)
 	{
-		if (this.useAir(living, upgradeHandler, airUsing, true))
+		if (!LivingHelper.isPlayingMode(living))
 		{
-			if (LivingHelper.isPlayingMode(living))
+			return true;
+		}
+
+		IOxygenStorage oxygenStorage = OxygenStorageUtils.firstExtractable(living, oxygenUsing);
+
+		if (oxygenStorage != null)
+		{
+			if (!simulate)
 			{
-				IOxygenStorage oxygenStorage = OxygenStorageUtils.firstExtractable(living, oxygenUsing);
-
-				if (oxygenStorage != null)
-				{
-					if (!simulate)
-					{
-						this.useAir(living, upgradeHandler, airUsing, false);
-
-						oxygenStorage.extractOxygen(living, oxygenUsing, false);
-					}
-
-					return true;
-				}
-
-			}
-			else
-			{
-				return true;
+				oxygenStorage.extractOxygen(living, oxygenUsing, false);
 			}
 
+			return true;
 		}
 
 		return false;

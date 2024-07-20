@@ -42,8 +42,6 @@ public class ModuleOxygenProofUnit implements ICustomModule<ModuleOxygenProofUni
 {
 	public static final ResourceLocation ICON = AdAstraGiselleAddon.rl(MekanismUtils.ResourceType.GUI_HUD.getPrefix() + "space_breathing_unit.png");
 
-	private int oxygenDuration = 0;
-	private FloatingLong energyUsingProvide;
 	private FloatingLong energyUsingProduce;
 
 	public ModuleOxygenProofUnit()
@@ -56,8 +54,6 @@ public class ModuleOxygenProofUnit implements ICustomModule<ModuleOxygenProofUni
 	{
 		ICustomModule.super.init(module, configItemCreator);
 
-		this.oxygenDuration = ProofAbstractUtils.OXYGEN_PROOF_INTERVAL;
-		this.energyUsingProvide = FloatingLong.create(AddonMekanismConfig.MODULES_OXYGEN_PROOF_ENERGY_USING_PROVIDE);
 		this.energyUsingProduce = FloatingLong.create(AddonMekanismConfig.MODULES_OXYGEN_PROOF_ENERGY_USING_PRODUCE);
 	}
 
@@ -158,6 +154,11 @@ public class ModuleOxygenProofUnit implements ICustomModule<ModuleOxygenProofUni
 
 	public boolean useResources(IModule<ModuleOxygenProofUnit> module, LivingEntity living, boolean simulate)
 	{
+		if (!LivingHelper.isPlayingMode(living))
+		{
+			return true;
+		}
+
 		long oxygenUsing = ProofAbstractUtils.OXYGEN_PROOF_USING;
 		IOxygenStorage oxygenStorage = OxygenStorageUtils.firstExtractable(living, oxygenUsing);
 
@@ -165,18 +166,12 @@ public class ModuleOxygenProofUnit implements ICustomModule<ModuleOxygenProofUni
 		{
 			if (oxygenStorage.extractOxygen(living, oxygenUsing, true) >= oxygenUsing)
 			{
-				FloatingLong energyUsing = this.getEnergyUsingProvide();
-
-				if (module.canUseEnergy(living, energyUsing))
+				if (!simulate && !living.getLevel().isClientSide())
 				{
-					if (!simulate && !living.getLevel().isClientSide())
-					{
-						oxygenStorage.extractOxygen(living, oxygenUsing, false);
-						module.useEnergy(living, energyUsing);
-					}
-
-					return true;
+					oxygenStorage.extractOxygen(living, oxygenUsing, false);
 				}
+
+				return true;
 
 			}
 
@@ -202,16 +197,6 @@ public class ModuleOxygenProofUnit implements ICustomModule<ModuleOxygenProofUni
 	public long getMaxProduceRate(IModule<ModuleOxygenProofUnit> module)
 	{
 		return (long) Math.pow(2L, module.getInstalledCount() - 1);
-	}
-
-	public int getOxygenDuration()
-	{
-		return this.oxygenDuration;
-	}
-
-	public FloatingLong getEnergyUsingProvide()
-	{
-		return this.energyUsingProvide;
 	}
 
 	public FloatingLong getEnergyUsingProduce()
