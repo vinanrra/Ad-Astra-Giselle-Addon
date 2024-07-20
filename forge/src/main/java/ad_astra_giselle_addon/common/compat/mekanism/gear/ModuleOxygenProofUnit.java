@@ -5,12 +5,10 @@ import java.util.function.Consumer;
 
 import ad_astra_giselle_addon.common.AdAstraGiselleAddon;
 import ad_astra_giselle_addon.common.compat.mekanism.AddonMekanismConfig;
-import ad_astra_giselle_addon.common.content.oxygen.IOxygenCharger;
-import ad_astra_giselle_addon.common.content.oxygen.OxygenChargerUtils;
+import ad_astra_giselle_addon.common.content.oxygen.IOxygenStorage;
+import ad_astra_giselle_addon.common.content.oxygen.OxygenStorageUtils;
 import ad_astra_giselle_addon.common.content.proof.ProofAbstractUtils;
 import ad_astra_giselle_addon.common.entity.LivingHelper;
-import ad_astra_giselle_addon.common.fluid.FluidHooks2;
-import ad_astra_giselle_addon.common.fluid.FluidPredicates;
 import ad_astra_giselle_addon.common.fluid.UniveralFluidHandler;
 import ad_astra_giselle_addon.common.item.ItemStackReference;
 import ad_astra_giselle_addon.common.item.OxygenCanItem;
@@ -161,13 +159,11 @@ public class ModuleOxygenProofUnit implements ICustomModule<ModuleOxygenProofUni
 	public boolean useResources(IModule<ModuleOxygenProofUnit> module, LivingEntity living, boolean simulate)
 	{
 		long oxygenUsing = ProofAbstractUtils.OXYGEN_PROOF_USING;
-		IOxygenCharger oxygenCharger = OxygenChargerUtils.firstExtractable(living, oxygenUsing);
+		IOxygenStorage oxygenStorage = OxygenStorageUtils.firstExtractable(living, oxygenUsing);
 
-		if (oxygenCharger != null)
+		if (oxygenStorage != null)
 		{
-			UniveralFluidHandler fluidHandler = oxygenCharger.getFluidHandler();
-
-			if (FluidHooks2.extractFluid(fluidHandler, FluidPredicates::isOxygen, oxygenUsing, true).getFluidAmount() >= oxygenUsing)
+			if (oxygenStorage.extractOxygen(living, oxygenUsing, true) >= oxygenUsing)
 			{
 				FloatingLong energyUsing = this.getEnergyUsingProvide();
 
@@ -175,7 +171,7 @@ public class ModuleOxygenProofUnit implements ICustomModule<ModuleOxygenProofUni
 				{
 					if (!simulate && !living.getLevel().isClientSide())
 					{
-						FluidHooks2.extractFluid(fluidHandler, FluidPredicates::isOxygen, oxygenUsing, false);
+						oxygenStorage.extractOxygen(living, oxygenUsing, false);
 						module.useEnergy(living, energyUsing);
 					}
 
@@ -199,7 +195,7 @@ public class ModuleOxygenProofUnit implements ICustomModule<ModuleOxygenProofUni
 			return;
 		}
 
-		double ratio = OxygenChargerUtils.getExtractableStoredRatio(player).orElse(0.0D);
+		double ratio = OxygenStorageUtils.getExtractableStoredRatio(player).orElse(0.0D);
 		hudElementAdder.accept(MekanismAPI.getModuleHelper().hudElementPercent(ICON, ratio));
 	}
 

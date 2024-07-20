@@ -3,13 +3,10 @@ package ad_astra_giselle_addon.common.compat.pneumaticcraft;
 import org.jetbrains.annotations.NotNull;
 
 import ad_astra_giselle_addon.common.compat.pneumaticcraft.pneumatic_armor.handlers.OxygenProofCommonHandler;
-import ad_astra_giselle_addon.common.content.oxygen.IOxygenCharger;
-import ad_astra_giselle_addon.common.content.oxygen.OxygenChargerUtils;
+import ad_astra_giselle_addon.common.content.oxygen.IOxygenStorage;
+import ad_astra_giselle_addon.common.content.oxygen.OxygenStorageUtils;
 import ad_astra_giselle_addon.common.content.proof.ProofAbstractUtils;
 import ad_astra_giselle_addon.common.entity.LivingHelper;
-import ad_astra_giselle_addon.common.fluid.FluidHooks2;
-import ad_astra_giselle_addon.common.fluid.FluidPredicates;
-import ad_astra_giselle_addon.common.fluid.UniveralFluidHandler;
 import me.desht.pneumaticcraft.api.PNCCapabilities;
 import me.desht.pneumaticcraft.api.pneumatic_armor.IArmorUpgradeHandler;
 import me.desht.pneumaticcraft.api.tileentity.IAirHandler;
@@ -121,16 +118,15 @@ public class PneumaticCraftProofProvidingHandler
 		{
 			if (LivingHelper.isPlayingMode(living))
 			{
-				IOxygenCharger oxygenCharger = OxygenChargerUtils.firstExtractable(living, oxygenUsing);
+				IOxygenStorage oxygenStorage = OxygenStorageUtils.firstExtractable(living, oxygenUsing);
 
-				if (oxygenCharger != null)
+				if (oxygenStorage != null)
 				{
 					if (!simulate)
 					{
 						this.useAir(living, upgradeHandler, airUsing, false);
 
-						UniveralFluidHandler fluidHandler = oxygenCharger.getFluidHandler();
-						FluidHooks2.extractFluid(fluidHandler, FluidPredicates::isOxygen, oxygenUsing, false);
+						oxygenStorage.extractOxygen(living, oxygenUsing, false);
 					}
 
 					return true;

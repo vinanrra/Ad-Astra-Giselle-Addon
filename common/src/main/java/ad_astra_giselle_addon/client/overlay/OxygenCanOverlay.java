@@ -2,7 +2,7 @@ package ad_astra_giselle_addon.client.overlay;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import ad_astra_giselle_addon.common.content.oxygen.OxygenChargerUtils;
+import ad_astra_giselle_addon.common.content.oxygen.OxygenStorageUtils;
 import ad_astra_giselle_addon.common.registry.AddonEnchantments;
 import ad_astra_giselle_addon.common.registry.AddonItems;
 import ad_astra_giselle_addon.common.util.TranslationUtils;
@@ -38,7 +38,7 @@ public class OxygenCanOverlay
 		}
 		else if (PlayerOverlayScreen.shouldRenderOxygen)
 		{
-			OxygenChargerUtils.getExtractableStoredRatio(player).ifPresent(ratio ->
+			OxygenStorageUtils.getExtractableStoredRatio(player).ifPresent(ratio ->
 			{
 				Font font = minecraft.font;
 				Component component = Component.translatable(OXYGENCAN_DESCRIPTION_ID).append(": ").append(TranslationUtils.formatPercent(ratio)).withStyle(s -> s.withColor(Mth.hsvToRgb((float) (ratio / 3.0F), 1.0F, 1.0F)));
@@ -52,7 +52,7 @@ public class OxygenCanOverlay
 		}
 		else if (EnchantmentHelper.getEnchantmentLevel(AddonEnchantments.OXYGEN_PROOF.get(), player) > 0)
 		{
-			OxygenChargerUtils.getExtractableStoredRatio(player).ifPresent(ratio ->
+			OxygenStorageUtils.getExtractableStoredRatio(player).ifPresent(ratio ->
 			{
 				renderOxygenCanTank(poseStack, minecraft, ratio);
 			});

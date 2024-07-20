@@ -3,14 +3,15 @@ package ad_astra_giselle_addon.common.content.oxygen;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.lang3.Range;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import ad_astra_giselle_addon.common.fluid.FluidHooks2;
+import ad_astra_giselle_addon.common.fluid.FluidPredicates;
 import ad_astra_giselle_addon.common.fluid.UniveralFluidHandler;
+import net.minecraft.world.entity.LivingEntity;
 
-public interface IOxygenCharger
+public interface IOxygenCharger extends IOxygenStorage
 {
 	public default List<IChargeMode> getAvailableChargeModes()
 	{
@@ -18,17 +19,23 @@ public interface IOxygenCharger
 	}
 
 	@NotNull
-	public IChargeMode getChargeMode();
+	IChargeMode getChargeMode();
 
-	public void setChargeMode(@Nullable IChargeMode mode);
+	void setChargeMode(@Nullable IChargeMode mode);
 
-	public long getTransferAmount();
+	long getTransferAmount();
 
-	public UniveralFluidHandler getFluidHandler();
+	UniveralFluidHandler getFluidHandler();
 
-	public Range<Integer> getTemperatureThreshold();
+	@Override
+	default long extractOxygen(@Nullable LivingEntity entity, long amount, boolean simulate)
+	{
+		UniveralFluidHandler fluidHandler = this.getFluidHandler();
+		return FluidHooks2.extractFluid(fluidHandler, FluidPredicates::isOxygen, amount, simulate).getFluidAmount();
+	}
 
-	public default long getTotalAmount()
+	@Override
+	default long getOxygenAmount()
 	{
 		UniveralFluidHandler fluidHandler = this.getFluidHandler();
 		int size = fluidHandler.getTankAmount();
@@ -42,7 +49,8 @@ public interface IOxygenCharger
 		return amount;
 	}
 
-	public default long getTotalCapacity()
+	@Override
+	default long getOxygenCapacity()
 	{
 		UniveralFluidHandler fluidHandler = this.getFluidHandler();
 		int size = fluidHandler.getTankAmount();
@@ -54,13 +62,6 @@ public interface IOxygenCharger
 		}
 
 		return capacity;
-	}
-
-	public default double getStoredRatio()
-	{
-		long amount = this.getTotalAmount();
-		long capacity = this.getTotalCapacity();
-		return FluidHooks2.getStoredRatio(amount, capacity);
 	}
 
 }

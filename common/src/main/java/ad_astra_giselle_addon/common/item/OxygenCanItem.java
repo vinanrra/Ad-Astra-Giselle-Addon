@@ -72,7 +72,7 @@ public class OxygenCanItem extends Item implements FluidContainingItem, IOxygenC
 		{
 			ItemStackHolder full = new ItemStackHolder(new ItemStack(this));
 			IOxygenCharger oxygenCharger = OxygenChargerUtils.get(full);
-			oxygenCharger.getFluidHandler().insertFluid(FluidHooks.newFluidHolder(ModFluids.OXYGEN.get(), oxygenCharger.getTotalCapacity(), null), false);
+			oxygenCharger.getFluidHandler().insertFluid(FluidHooks.newFluidHolder(ModFluids.OXYGEN.get(), oxygenCharger.getOxygenCapacity(), null), false);
 			list.add(full.getStack());
 		}
 
@@ -91,7 +91,7 @@ public class OxygenCanItem extends Item implements FluidContainingItem, IOxygenC
 
 		if (oxygenCharger != null && oxygenCharger.getChargeMode() != ChargeMode.NONE)
 		{
-			long totalAmount = oxygenCharger.getTotalAmount();
+			long totalAmount = oxygenCharger.getOxygenAmount();
 
 			if (totalAmount > 0)
 			{
@@ -163,14 +163,14 @@ public class OxygenCanItem extends Item implements FluidContainingItem, IOxygenC
 	@Override
 	public int getBarWidth(ItemStack item)
 	{
-		double ratio = OxygenChargerUtils.get(new ItemStackHolder(item)).getStoredRatio();
+		double ratio = OxygenChargerUtils.get(new ItemStackHolder(item)).getOxygenStoredRatio();
 		return (int) (ratio * 13);
 	}
 
 	@Override
 	public int getBarColor(ItemStack item)
 	{
-		double ratio = OxygenChargerUtils.get(new ItemStackHolder(item)).getStoredRatio();
+		double ratio = OxygenChargerUtils.get(new ItemStackHolder(item)).getOxygenStoredRatio();
 		return Mth.hsvToRgb((float) (ratio / 3.0F), 1.0F, 1.0F);
 	}
 
