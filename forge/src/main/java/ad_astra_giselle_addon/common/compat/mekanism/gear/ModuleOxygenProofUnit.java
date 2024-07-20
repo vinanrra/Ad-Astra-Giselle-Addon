@@ -41,7 +41,6 @@ public class ModuleOxygenProofUnit implements ICustomModule<ModuleOxygenProofUni
 {
 	public static final ResourceLocation ICON = AdAstraGiselleAddon.rl(MekanismUtils.ResourceType.GUI_HUD.getPrefix() + "space_breathing_unit.png");
 
-	private FloatingLong energyUsingProvide;
 	private FloatingLong energyUsingProduce;
 
 	public ModuleOxygenProofUnit()
@@ -54,7 +53,6 @@ public class ModuleOxygenProofUnit implements ICustomModule<ModuleOxygenProofUni
 	{
 		ICustomModule.super.init(module, configItemCreator);
 
-		this.energyUsingProvide = FloatingLong.create(AddonMekanismConfig.MODULES_OXYGEN_PROOF_ENERGY_USING_PROVIDE);
 		this.energyUsingProduce = FloatingLong.create(AddonMekanismConfig.MODULES_OXYGEN_PROOF_ENERGY_USING_PRODUCE);
 	}
 
@@ -167,19 +165,12 @@ public class ModuleOxygenProofUnit implements ICustomModule<ModuleOxygenProofUni
 		{
 			if (oxygenStorage.extractOxygen(living, oxygenUsing, true) >= oxygenUsing)
 			{
-				FloatingLong energyUsing = this.getEnergyUsingProvide();
-
-				if (module.canUseEnergy(living, energyUsing))
+				if (!simulate && !living.level().isClientSide())
 				{
-					if (!simulate && !living.level().isClientSide())
-					{
-						oxygenStorage.extractOxygen(living, oxygenUsing, false);
-						module.useEnergy(living, energyUsing);
-					}
-
-					return true;
+					oxygenStorage.extractOxygen(living, oxygenUsing, false);
 				}
 
+				return true;
 			}
 
 		}
@@ -204,11 +195,6 @@ public class ModuleOxygenProofUnit implements ICustomModule<ModuleOxygenProofUni
 	public long getMaxProduceRate(IModule<ModuleOxygenProofUnit> module)
 	{
 		return (long) Math.pow(2L, module.getInstalledCount() - 1);
-	}
-
-	public FloatingLong getEnergyUsingProvide()
-	{
-		return this.energyUsingProvide;
 	}
 
 	public FloatingLong getEnergyUsingProduce()
