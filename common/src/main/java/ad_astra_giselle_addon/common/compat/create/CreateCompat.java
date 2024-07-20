@@ -34,8 +34,8 @@ public class CreateCompat extends CompatibleMod
 	public void collectEquipCommands(List<ArgumentBuilder<CommandSourceStack, ?>> list)
 	{
 		super.collectEquipCommands(list);
-		list.add(Commands.literal("divingHelmet").executes(CreateCommand::divingHelmet));
-		list.add(Commands.literal("netheriteDivingHelmet").executes(CreateCommand::netheriteDivingHelmet));
+		list.add(Commands.literal("diving_helmet").executes(CreateCommand::diving_helmet));
+		list.add(Commands.literal("netherite_diving_helmet").executes(CreateCommand::netherite_diving_helmet));
 	}
 
 }
