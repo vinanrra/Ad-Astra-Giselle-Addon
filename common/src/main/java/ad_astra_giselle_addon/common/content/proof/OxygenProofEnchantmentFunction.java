@@ -1,17 +1,13 @@
 package ad_astra_giselle_addon.common.content.proof;
 
 import ad_astra_giselle_addon.common.config.EnchantmentsConfig;
-import ad_astra_giselle_addon.common.content.oxygen.IOxygenCharger;
-import ad_astra_giselle_addon.common.content.oxygen.OxygenChargerUtils;
+import ad_astra_giselle_addon.common.content.oxygen.IOxygenStorage;
+import ad_astra_giselle_addon.common.content.oxygen.OxygenStorageUtils;
 import ad_astra_giselle_addon.common.entity.LivingHelper;
-import ad_astra_giselle_addon.common.fluid.FluidPredicates;
-import ad_astra_giselle_addon.common.fluid.FluidUtils2;
 import ad_astra_giselle_addon.common.item.ItemStackReference;
 import ad_astra_giselle_addon.common.item.ItemUsableResource;
 import ad_astra_giselle_addon.common.registry.AddonEnchantments;
 import earth.terrarium.botarium.common.fluid.FluidConstants;
-import earth.terrarium.botarium.common.fluid.base.FluidContainer;
-import earth.terrarium.botarium.common.fluid.base.FluidHolder;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -34,16 +30,15 @@ public class OxygenProofEnchantmentFunction extends ProofEnchantmentFunction
 		else if (LivingHelper.isPlayingMode(living))
 		{
 			long oxygenUsing = this.getOxygenUsing(resource);
-			IOxygenCharger oxygenCharger = OxygenChargerUtils.firstExtractable(living, oxygenUsing);
+			IOxygenStorage oxygenStorage = OxygenStorageUtils.firstExtractable(living, oxygenUsing);
 
-			if (oxygenCharger == null)
+			if (oxygenStorage == null)
 			{
 				return false;
 			}
 
-			FluidContainer fluidContainer = oxygenCharger.getFluidContainer();
-			FluidHolder extracted = FluidUtils2.extractFluid(fluidContainer, FluidPredicates::isOxygen, oxygenUsing, simulate);
-			return extracted.getFluidAmount() >= oxygenUsing;
+			long extracted = oxygenStorage.extractOxygen(living, oxygenUsing, simulate);
+			return extracted >= oxygenUsing;
 		}
 		else
 		{

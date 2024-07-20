@@ -7,11 +7,13 @@ import java.util.stream.Collectors;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import ad_astra_giselle_addon.common.fluid.FluidPredicates;
 import ad_astra_giselle_addon.common.fluid.FluidUtils2;
 import earth.terrarium.botarium.common.fluid.base.FluidContainer;
 import earth.terrarium.botarium.common.fluid.base.FluidHolder;
+import net.minecraft.world.entity.LivingEntity;
 
-public interface IOxygenCharger
+public interface IOxygenCharger extends IOxygenStorage
 {
 	public default List<IChargeMode> getAvailableChargeModes()
 	{
@@ -19,41 +21,29 @@ public interface IOxygenCharger
 	}
 
 	@NotNull
-	public IChargeMode getChargeMode();
+	IChargeMode getChargeMode();
 
-	public void setChargeMode(@Nullable IChargeMode mode);
+	void setChargeMode(@Nullable IChargeMode mode);
 
-	public long getTransferAmount();
+	long getTransferAmount();
 
-	public FluidContainer getFluidContainer();
+	FluidContainer getFluidContainer();
 
-	public boolean canUseOnCold();
-
-	public boolean canUseOnHot();
-
-	public default boolean canUse(boolean isCold, boolean isHot)
+	@Override
+	default long extractOxygen(@Nullable LivingEntity entity, long amount, boolean simulate)
 	{
-		if (isCold && !this.canUseOnCold())
-		{
-			return false;
-		}
-		else if (isHot && !this.canUseOnHot())
-		{
-			return false;
-		}
-		else
-		{
-			return true;
-		}
-
+		FluidContainer fluidContainer = this.getFluidContainer();
+		return FluidUtils2.extractFluid(fluidContainer, FluidPredicates::isOxygen, amount, simulate).getFluidAmount();
 	}
 
-	public default long getTotalAmount()
+	@Override
+	default long getOxygenAmount()
 	{
 		return this.getFluidContainer().getFluids().stream().collect(Collectors.summingLong(FluidHolder::getFluidAmount));
 	}
 
-	public default long getTotalCapacity()
+	@Override
+	default long getOxygenCapacity()
 	{
 		FluidContainer fluidContainer = this.getFluidContainer();
 		int size = fluidContainer.getSize();
@@ -65,13 +55,6 @@ public interface IOxygenCharger
 		}
 
 		return capacity;
-	}
-
-	public default double getStoredRatio()
-	{
-		long amount = this.getTotalAmount();
-		long capacity = this.getTotalCapacity();
-		return FluidUtils2.getStoredRatio(amount, capacity);
 	}
 
 }

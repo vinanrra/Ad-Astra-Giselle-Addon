@@ -6,7 +6,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import ad_astra_giselle_addon.client.compat.pneumaticcraft.pneumatic_armor.options.OxygenProofOption;
 import ad_astra_giselle_addon.common.compat.pneumaticcraft.AddonPNCUpgrades;
-import ad_astra_giselle_addon.common.content.oxygen.OxygenChargerUtils;
+import ad_astra_giselle_addon.common.content.oxygen.OxygenStorageUtils;
 import ad_astra_giselle_addon.common.registry.AddonItems;
 import ad_astra_giselle_addon.common.util.TranslationUtils;
 import me.desht.pneumaticcraft.api.client.IGuiAnimatedStat;
@@ -53,7 +53,7 @@ public class OxygenProofClientHandler<T extends IArmorUpgradeHandler<?>> extends
 		if (isEnabled && this.stat.isStatOpen())
 		{
 			Player player = armorHandler.getPlayer();
-			double ratio = OxygenChargerUtils.getExtractableStoredRatio(player).orElse(0.0D);
+			double ratio = OxygenStorageUtils.getExtractableStoredRatio(player).orElse(0.0D);
 			this.oxygenComponent = TranslationUtils.formatPercent(ratio);
 		}
 		else
