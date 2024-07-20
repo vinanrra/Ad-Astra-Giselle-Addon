@@ -25,6 +25,21 @@ loom {
     }
 }
 
+repositories {
+    maven {
+        name "Create  Porting Lib"
+        url "https://mvn.devos.one/snapshots/"
+    }
+    maven {
+        name "Forge Config API Port"
+        url "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/"
+    }
+    maven {
+        name "Reach Entity Attributes"
+        url "https://maven.jamieswhiteshirt.com/libs-release/"
+    }
+}
+
 dependencies {
     // Mod
     minecraft "com.mojang:minecraft:${mc_version}"
@@ -52,6 +67,7 @@ dependencies {
     modImplementation "mezz.jei:jei-${mc_version}-fabric:${jei_version}"
 
     // Implementation
+    modImplementation("com.simibubi.create:create-fabric-${mc_version}:${create_version}")
 
     // Runtiem Only
     modRuntimeOnly "RebornCore:RebornCore-1.19:${techreborn_version}"

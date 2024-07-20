@@ -86,6 +86,9 @@ dependencies {
     implementation fg.deobf("curse.maven:curios-309927:${curios_file}")
     implementation fg.deobf("mekanism:Mekanism:${mc_version}-${mekanism_version}")
     implementation fg.deobf("curse.maven:pneumaticcraft-repressurized-281849:${pneumaticcraft_repressurized_file}")
+    implementation fg.deobf("com.simibubi.create:create-${mc_version}:${create_version}:slim") { transitive = false }
+    implementation fg.deobf("com.jozufozu.flywheel:flywheel-forge-${mc_version}:${flywheel_version}")
+    implementation fg.deobf("com.tterrag.registrate:Registrate:${registrate_version}")
 
     // Runtiem Only
     runtimeOnly fg.deobf("curse.maven:the-one-probe-245211:${top_file}")

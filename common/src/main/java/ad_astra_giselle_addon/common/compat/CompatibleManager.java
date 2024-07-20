@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import ad_astra_giselle_addon.common.compat.create.CreateCompat;
+
 public class CompatibleManager
 {
 	private static final Delegate DELEGATE = new CompatibleManagerDelegate();
@@ -11,12 +13,14 @@ public class CompatibleManager
 	public static final List<CompatibleMod> COMMON_MODS;
 	public static final JeiCompat JEI;
 	public static final ReiCompat REI;
+	public static final CreateCompat Create;
 
 	static
 	{
 		List<CompatibleMod> mods = new ArrayList<>();
 		mods.add(JEI = new JeiCompat());
 		mods.add(REI = new ReiCompat());
+		mods.add(Create = new CreateCompat());
 
 		COMMON_MODS = Collections.unmodifiableList(mods);
 	}

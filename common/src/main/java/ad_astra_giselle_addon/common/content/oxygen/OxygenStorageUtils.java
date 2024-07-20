@@ -6,6 +6,8 @@ import java.util.stream.Stream;
 
 import org.jetbrains.annotations.Nullable;
 
+import ad_astra_giselle_addon.common.compat.CompatibleManager;
+import ad_astra_giselle_addon.common.compat.create.BacktankOxygenStorage;
 import ad_astra_giselle_addon.common.entity.LivingHelper;
 import ad_astra_giselle_addon.common.item.ItemStackReference;
 import earth.terrarium.ad_astra.common.util.ModUtils;
@@ -78,11 +80,19 @@ public class OxygenStorageUtils
 		{
 			return oxygenStorageItem.getOxygenStorage(item);
 		}
-		else
+
+		if (CompatibleManager.Create.isLoaded())
 		{
-			return null;
+			var storage = BacktankOxygenStorage.getOxygenStroage(item);
+
+			if (storage != null)
+			{
+				return storage;
+			}
+
 		}
 
+		return null;
 	}
 
 	private OxygenStorageUtils()

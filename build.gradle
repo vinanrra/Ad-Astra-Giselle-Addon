@@ -23,6 +23,10 @@ allprojects {
             url "https://www.cursemaven.com"
         }
         maven {
+            name "Modrinth"
+            url "https://api.modrinth.com/maven"
+        }
+        maven {
             name "Terrarium"
             url "https://maven.terraformersmc.com"
         }
@@ -33,6 +37,14 @@ allprojects {
         maven {
             name "shedaniel"
             url "https://maven.shedaniel.me"
+        }
+        maven {
+            name "jitpack.io"
+            url "https://jitpack.io"
+        }
+        maven {
+            name "tterrag maven"
+            url "https://maven.tterrag.com"
         }
         maven {
             name "Local"
