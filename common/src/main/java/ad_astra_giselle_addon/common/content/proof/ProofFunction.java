@@ -1,9 +1,9 @@
 package ad_astra_giselle_addon.common.content.proof;
 
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Entity;
 
 @FunctionalInterface
 public interface ProofFunction
 {
-	int provide(LivingEntity living);
+	int provide(Entity entity);
 }

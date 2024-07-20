@@ -8,6 +8,7 @@ import ad_astra_giselle_addon.common.enchantment.EnchantmentHelper2;
 import ad_astra_giselle_addon.common.entity.LivingHelper;
 import ad_astra_giselle_addon.common.item.ItemStackReference;
 import ad_astra_giselle_addon.common.item.ItemUsableResource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -15,35 +16,39 @@ import net.minecraft.world.item.enchantment.Enchantment;
 public abstract class ProofEnchantmentFunction implements ProofFunction
 {
 	@Override
-	public int provide(LivingEntity living)
+	public int provide(Entity entity)
 	{
-		@NotNull
-		Pair<EquipmentSlot, Integer> pair = EnchantmentHelper2.getEnchantmentItemAndLevel(this.getEnchantment(), living);
-		EquipmentSlot slot = pair.getFirst();
-		int enchantLevel = pair.getSecond();
-
-		if (slot == null || enchantLevel == 0)
+		if (entity instanceof LivingEntity living)
 		{
-			return 0;
-		}
-		else if (LivingHelper.isPlayingMode(living))
-		{
-			ItemStackReference enchantedItem = LivingHelper.getEquipmentItem(living, slot);
-			ItemUsableResource resource = ItemUsableResource.first(enchantedItem.getStack());
+			@NotNull
+			Pair<EquipmentSlot, Integer> pair = EnchantmentHelper2.getEnchantmentItemAndLevel(this.getEnchantment(), living);
+			EquipmentSlot slot = pair.getFirst();
+			int enchantLevel = pair.getSecond();
 
-			if (resource != null && this.consume(living, slot, enchantedItem, resource, true))
+			if (slot == null || enchantLevel == 0)
 			{
-				this.consume(living, slot, enchantedItem, resource, false);
-				return this.getProofDuration(resource);
+				return 0;
+			}
+			else if (LivingHelper.isPlayingMode(living))
+			{
+				ItemStackReference enchantedItem = LivingHelper.getEquipmentItem(living, slot);
+				ItemUsableResource resource = ItemUsableResource.first(enchantedItem.getStack());
+
+				if (resource != null && this.consume(living, slot, enchantedItem, resource, true))
+				{
+					this.consume(living, slot, enchantedItem, resource, false);
+					return this.getProofDuration(resource);
+				}
+
+			}
+			else
+			{
+				return ProofAbstractUtils.GENERAL_PROOF_INTERVAL;
 			}
 
-			return 0;
-		}
-		else
-		{
-			return ProofAbstractUtils.GENERAL_PROOF_INTERVAL;
 		}
 
+		return 0;
 	}
 
 	public boolean consume(LivingEntity living, EquipmentSlot slot, ItemStackReference enchantedItem, ItemUsableResource resource, boolean simulate)

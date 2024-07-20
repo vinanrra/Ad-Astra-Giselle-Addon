@@ -10,7 +10,7 @@ import ad_astra_giselle_addon.common.fluid.FluidHooks2;
 import ad_astra_giselle_addon.common.util.NBTUtils;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Entity;
 
 public abstract class ProofAbstractUtils
 {
@@ -24,20 +24,20 @@ public abstract class ProofAbstractUtils
 	public static final int OXYGEN_PROOF_INTERVAL = 30;
 	public static final long OXYGEN_PROOF_USING = FluidHooks2.MILLI_BUCKET;
 
-	public static CompoundTag getAllCustomData(LivingEntity living)
+	public static CompoundTag getAllCustomData(Entity entity)
 	{
-		return NBTUtils.getOrCreateTag(EntityCustomDataHelper.getCustomData(living), KEY_PROOF_MAP);
+		return NBTUtils.getOrCreateTag(EntityCustomDataHelper.getCustomData(entity), KEY_PROOF_MAP);
 	}
 
-	public static void reduceProofDuration(LivingEntity living)
+	public static void reduceProofDuration(Entity entity)
 	{
 		for (ProofAbstractUtils proof : PROOFS)
 		{
-			int currentDuration = proof.getProofDuration(living);
+			int currentDuration = proof.getProofDuration(entity);
 
 			if (currentDuration > 0)
 			{
-				proof.setProofDuration(living, currentDuration - 1);
+				proof.setProofDuration(entity, currentDuration - 1);
 			}
 
 		}
@@ -66,39 +66,39 @@ public abstract class ProofAbstractUtils
 		return this.customDataKey;
 	}
 
-	public CompoundTag getCustomData(LivingEntity living)
+	public CompoundTag getCustomData(Entity entity)
 	{
-		return NBTUtils.getTag(getAllCustomData(living), this.getCustomDataKey());
+		return NBTUtils.getTag(getAllCustomData(entity), this.getCustomDataKey());
 	}
 
-	public CompoundTag getOrCreateData(LivingEntity living)
+	public CompoundTag getOrCreateData(Entity entity)
 	{
-		return NBTUtils.getOrCreateTag(getAllCustomData(living), this.getCustomDataKey());
+		return NBTUtils.getOrCreateTag(getAllCustomData(entity), this.getCustomDataKey());
 	}
 
-	public int getProofDuration(LivingEntity living)
+	public int getProofDuration(Entity entity)
 	{
-		return this.getCustomData(living).getInt(KEY_PROOF_DURATION);
+		return this.getCustomData(entity).getInt(KEY_PROOF_DURATION);
 	}
 
-	public void setProofDuration(LivingEntity living, int proofDuration)
+	public void setProofDuration(Entity entity, int proofDuration)
 	{
-		this.getOrCreateData(living).putInt(KEY_PROOF_DURATION, proofDuration);
+		this.getOrCreateData(entity).putInt(KEY_PROOF_DURATION, proofDuration);
 	}
 
-	public boolean tryProvideProof(LivingEntity living)
+	public boolean tryProvideProof(Entity entity)
 	{
-		if (this.getProofDuration(living) > 0)
+		if (this.getProofDuration(entity) > 0)
 		{
 			return true;
 		}
 		else
 		{
-			int proofDuration = this.post(living);
+			int proofDuration = this.post(entity);
 
 			if (proofDuration > 0)
 			{
-				this.setProofDuration(living, proofDuration);
+				this.setProofDuration(entity, proofDuration);
 				return true;
 			}
 
@@ -117,11 +117,11 @@ public abstract class ProofAbstractUtils
 		return this.listeners.remove(event);
 	}
 
-	public int post(LivingEntity living)
+	public int post(Entity entity)
 	{
 		for (ProofFunction event : this.listeners)
 		{
-			int proofFunction = event.provide(living);
+			int proofFunction = event.provide(entity);
 
 			if (proofFunction > 0)
 			{

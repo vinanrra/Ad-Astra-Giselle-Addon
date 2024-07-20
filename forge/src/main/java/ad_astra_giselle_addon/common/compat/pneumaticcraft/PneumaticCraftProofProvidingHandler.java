@@ -16,6 +16,7 @@ import me.desht.pneumaticcraft.api.tileentity.IAirHandler;
 import me.desht.pneumaticcraft.api.tileentity.IAirHandlerItem;
 import me.desht.pneumaticcraft.common.item.PneumaticArmorItem;
 import me.desht.pneumaticcraft.common.pneumatic_armor.CommonArmorHandler;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -53,33 +54,65 @@ public class PneumaticCraftProofProvidingHandler
 
 	}
 
-	public int onOxygenProof(LivingEntity living)
+	public int onOxygenProof(Entity entity)
 	{
-		OxygenProofCommonHandler upgradeHandler = AddonCommonUpgradeHandlers.OXYGEN_PROOF;
-		int airUsing = AddonPneumaticCraftConfig.OXYGEN_PROOF_AIR_USING;
-		long oxygenUsing = ProofAbstractUtils.OXYGEN_PROOF_USING;
-		return this.useAirAndOxygen(living, upgradeHandler, airUsing, oxygenUsing, false) ? ProofAbstractUtils.OXYGEN_PROOF_INTERVAL : 0;
+		if (entity instanceof LivingEntity living)
+		{
+			OxygenProofCommonHandler upgradeHandler = AddonCommonUpgradeHandlers.OXYGEN_PROOF;
+			int airUsing = AddonPneumaticCraftConfig.OXYGEN_PROOF_AIR_USING;
+			long oxygenUsing = ProofAbstractUtils.OXYGEN_PROOF_USING;
+			return this.useAirAndOxygen(living, upgradeHandler, airUsing, oxygenUsing, false) ? ProofAbstractUtils.OXYGEN_PROOF_INTERVAL : 0;
+		}
+		else
+		{
+			return 0;
+		}
+
 	}
 
-	public int onHotTemperatureProof(LivingEntity living)
+	public int onHotTemperatureProof(Entity entity)
 	{
-		IArmorUpgradeHandler<?> upgradeHandler = AddonCommonUpgradeHandlers.HOT_TEMPERATURE_PROOF;
-		int airUsing = AddonPneumaticCraftConfig.HOT_TEMPERATURE_PROOF_AIR_USING;
-		return this.useAir(living, upgradeHandler, airUsing, false) ? ProofAbstractUtils.GENERAL_PROOF_INTERVAL : 0;
+		if (entity instanceof LivingEntity living)
+		{
+			IArmorUpgradeHandler<?> upgradeHandler = AddonCommonUpgradeHandlers.HOT_TEMPERATURE_PROOF;
+			int airUsing = AddonPneumaticCraftConfig.HOT_TEMPERATURE_PROOF_AIR_USING;
+			return this.useAir(living, upgradeHandler, airUsing, false) ? ProofAbstractUtils.GENERAL_PROOF_INTERVAL : 0;
+		}
+		else
+		{
+			return 0;
+		}
+
 	}
 
-	public int onAcidRainProof(LivingEntity living)
+	public int onAcidRainProof(Entity entity)
 	{
-		IArmorUpgradeHandler<?> upgradeHandler = AddonCommonUpgradeHandlers.ACID_RAIN_PROOF;
-		int airUsing = AddonPneumaticCraftConfig.ACID_RAIN_PROOF_AIR_USING;
-		return this.useAir(living, upgradeHandler, airUsing, false) ? ProofAbstractUtils.GENERAL_PROOF_INTERVAL : 0;
+		if (entity instanceof LivingEntity living)
+		{
+			IArmorUpgradeHandler<?> upgradeHandler = AddonCommonUpgradeHandlers.ACID_RAIN_PROOF;
+			int airUsing = AddonPneumaticCraftConfig.ACID_RAIN_PROOF_AIR_USING;
+			return this.useAir(living, upgradeHandler, airUsing, false) ? ProofAbstractUtils.GENERAL_PROOF_INTERVAL : 0;
+		}
+		else
+		{
+			return 0;
+		}
+
 	}
 
-	public int onGravityProof(LivingEntity living)
+	public int onGravityProof(Entity entity)
 	{
-		IArmorUpgradeHandler<?> upgradeHandler = AddonCommonUpgradeHandlers.GRAVITY_PROOF;
-		int airUsing = AddonPneumaticCraftConfig.GRAVITY_PROOF_AIR_USING;
-		return this.useAir(living, upgradeHandler, airUsing, false) ? ProofAbstractUtils.GENERAL_PROOF_INTERVAL : 0;
+		if (entity instanceof LivingEntity living)
+		{
+			IArmorUpgradeHandler<?> upgradeHandler = AddonCommonUpgradeHandlers.GRAVITY_PROOF;
+			int airUsing = AddonPneumaticCraftConfig.GRAVITY_PROOF_AIR_USING;
+			return this.useAir(living, upgradeHandler, airUsing, false) ? ProofAbstractUtils.GENERAL_PROOF_INTERVAL : 0;
+		}
+		else
+		{
+			return 0;
+		}
+
 	}
 
 	public boolean useAirAndOxygen(LivingEntity living, OxygenProofCommonHandler upgradeHandler, int airUsing, long oxygenUsing, boolean simulate)

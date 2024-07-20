@@ -18,9 +18,9 @@ public abstract class ModUtilsMixin
 	{
 		float gravity = callbackInfo.getReturnValueF();
 
-		if (entity instanceof LivingEntity living && gravity != 1.0F)
+		if (gravity != 1.0F)
 		{
-			if (AddonProofs.GRAVITY.tryProvideProof(living))
+			if (AddonProofs.GRAVITY.tryProvideProof(entity))
 			{
 				callbackInfo.setReturnValue(1.0F);
 			}

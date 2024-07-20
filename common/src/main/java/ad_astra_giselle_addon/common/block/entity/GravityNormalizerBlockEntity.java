@@ -18,7 +18,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -134,9 +134,9 @@ public class GravityNormalizerBlockEntity extends AddonMachineBlockEntity implem
 			return;
 		}
 
-		List<LivingEntity> livings = level.getEntitiesOfClass(LivingEntity.class, workingArea);
+		List<Entity> entities = level.getEntities(null, workingArea);
 
-		if (livings.size() <= 0)
+		if (entities.size() <= 0)
 		{
 			return;
 		}
@@ -144,7 +144,7 @@ public class GravityNormalizerBlockEntity extends AddonMachineBlockEntity implem
 		energyManager.extract(energyUsing, false);
 		int proofDuration = this.getMaxTimer() + 1;
 
-		for (LivingEntity entity : livings)
+		for (Entity entity : entities)
 		{
 			if (proof.getProofDuration(entity) > proofDuration)
 			{
