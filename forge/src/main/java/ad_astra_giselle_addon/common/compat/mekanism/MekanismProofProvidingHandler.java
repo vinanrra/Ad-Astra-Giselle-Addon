@@ -6,29 +6,62 @@ import ad_astra_giselle_addon.common.compat.mekanism.gear.ModuleHotTemperaturePr
 import ad_astra_giselle_addon.common.compat.mekanism.gear.ModuleOxygenProofUnit;
 import ad_astra_giselle_addon.common.content.proof.ProofAbstractUtils;
 import mekanism.api.gear.IModule;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 
 public class MekanismProofProvidingHandler
 {
-	public int onOxygenProof(LivingEntity living)
+	public int onOxygenProof(Entity entity)
 	{
-		IModule<ModuleOxygenProofUnit> module = AddonModuleHelper.findArmorEnabledModule(living, AddonMekanismModules.OXYGEN_PROOF_UNIT);
-		return module != null && module.getCustomInstance().useResources(module, living, false) ? ProofAbstractUtils.OXYGEN_PROOF_INTERVAL : 0;
+		if (entity instanceof LivingEntity living)
+		{
+			IModule<ModuleOxygenProofUnit> module = AddonModuleHelper.findArmorEnabledModule(living, AddonMekanismModules.OXYGEN_PROOF_UNIT);
+			return module != null && module.getCustomInstance().useResources(module, living, false) ? ProofAbstractUtils.OXYGEN_PROOF_INTERVAL : 0;
+		}
+		else
+		{
+			return 0;
+		}
+
 	}
 
-	public int onHotTemperatureProof(LivingEntity living)
+	public int onHotTemperatureProof(Entity entity)
 	{
-		return AddonModuleHelper.useEnergy(living, AddonMekanismModules.HOT_TEMPERATURE_PROOF_UNIT, ModuleHotTemperatureProofUnit::getEnergyUsing) ? ProofAbstractUtils.GENERAL_PROOF_INTERVAL : 0;
+		if (entity instanceof LivingEntity living)
+		{
+			return AddonModuleHelper.useEnergy(living, AddonMekanismModules.HOT_TEMPERATURE_PROOF_UNIT, ModuleHotTemperatureProofUnit::getEnergyUsing) ? ProofAbstractUtils.GENERAL_PROOF_INTERVAL : 0;
+		}
+		else
+		{
+			return 0;
+		}
+
 	}
 
-	public int onAcidRainProof(LivingEntity living)
+	public int onAcidRainProof(Entity entity)
 	{
-		return AddonModuleHelper.useEnergy(living, AddonMekanismModules.ACID_RAIN_PROOF_UNIT, ModuleAcidRainProofUnit::getEnergyUsing) ? ProofAbstractUtils.GENERAL_PROOF_INTERVAL : 0;
+		if (entity instanceof LivingEntity living)
+		{
+			return AddonModuleHelper.useEnergy(living, AddonMekanismModules.ACID_RAIN_PROOF_UNIT, ModuleAcidRainProofUnit::getEnergyUsing) ? ProofAbstractUtils.GENERAL_PROOF_INTERVAL : 0;
+		}
+		else
+		{
+			return 0;
+		}
+
 	}
 
-	public int onGravityProof(LivingEntity living)
+	public int onGravityProof(Entity entity)
 	{
-		return AddonModuleHelper.useEnergy(living, AddonMekanismModules.GRAVITY_PROOF_UNIT, ModuleGravityProofUnit::getEnergyUsing) ? ProofAbstractUtils.GENERAL_PROOF_INTERVAL : 0;
+		if (entity instanceof LivingEntity living)
+		{
+			return AddonModuleHelper.useEnergy(living, AddonMekanismModules.GRAVITY_PROOF_UNIT, ModuleGravityProofUnit::getEnergyUsing) ? ProofAbstractUtils.GENERAL_PROOF_INTERVAL : 0;
+		}
+		else
+		{
+			return 0;
+		}
+
 	}
 
 	public MekanismProofProvidingHandler()

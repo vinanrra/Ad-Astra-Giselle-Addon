@@ -7,7 +7,7 @@ import java.util.List;
 import ad_astra_giselle_addon.common.AdAstraGiselleAddon;
 import earth.terrarium.botarium.common.fluid.FluidConstants;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Entity;
 
 public abstract class ProofAbstractUtils
 {
@@ -20,15 +20,15 @@ public abstract class ProofAbstractUtils
 	public static final int OXYGEN_PROOF_INTERVAL = 30;
 	public static final long OXYGEN_PROOF_USING = FluidConstants.fromMillibuckets(1L);
 
-	public static void reduceProofDuration(LivingEntity living)
+	public static void reduceProofDuration(Entity entity)
 	{
 		for (ProofAbstractUtils proof : PROOFS)
 		{
-			int currentDuration = proof.getProofDuration(living);
+			int currentDuration = proof.getProofDuration(entity);
 
 			if (currentDuration > 0)
 			{
-				proof.setProofDuration(living, currentDuration - 1);
+				proof.setProofDuration(entity, currentDuration - 1);
 			}
 
 		}
@@ -57,29 +57,29 @@ public abstract class ProofAbstractUtils
 		return this.dataKey;
 	}
 
-	public int getProofDuration(LivingEntity living)
+	public int getProofDuration(Entity entity)
 	{
-		return ((LivingProofDurationAccessor) living).ad_astra_giselle_addon$getProofDuration(this);
+		return ((EntityProofDurationAccessor) entity).ad_astra_giselle_addon$getProofDuration(this);
 	}
 
-	public void setProofDuration(LivingEntity living, int proofDuration)
+	public void setProofDuration(Entity entity, int proofDuration)
 	{
-		((LivingProofDurationAccessor) living).ad_astra_giselle_addon$setProofDuration(this, proofDuration);
+		((EntityProofDurationAccessor) entity).ad_astra_giselle_addon$setProofDuration(this, proofDuration);
 	}
 
-	public boolean tryProvideProof(LivingEntity living)
+	public boolean tryProvideProof(Entity entity)
 	{
-		if (this.getProofDuration(living) > 0)
+		if (this.getProofDuration(entity) > 0)
 		{
 			return true;
 		}
 		else
 		{
-			int proofDuration = this.post(living);
+			int proofDuration = this.post(entity);
 
 			if (proofDuration > 0)
 			{
-				this.setProofDuration(living, proofDuration);
+				this.setProofDuration(entity, proofDuration);
 				return true;
 			}
 
@@ -98,11 +98,11 @@ public abstract class ProofAbstractUtils
 		return this.listeners.remove(event);
 	}
 
-	public int post(LivingEntity living)
+	public int post(Entity entity)
 	{
 		for (ProofFunction event : this.listeners)
 		{
-			int proofFunction = event.provide(living);
+			int proofFunction = event.provide(entity);
 
 			if (proofFunction > 0)
 			{

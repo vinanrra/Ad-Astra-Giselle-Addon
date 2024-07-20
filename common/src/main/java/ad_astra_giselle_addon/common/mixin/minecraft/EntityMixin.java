@@ -8,18 +8,17 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import ad_astra_giselle_addon.common.AdAstraGiselleAddon;
-import ad_astra_giselle_addon.common.content.proof.LivingProofDurationAccessor;
+import ad_astra_giselle_addon.common.content.proof.EntityProofDurationAccessor;
 import ad_astra_giselle_addon.common.content.proof.ProofAbstractUtils;
 import ad_astra_giselle_addon.common.entity.ICustomDataHolder;
 import it.unimi.dsi.fastutil.objects.Object2IntLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 
 @Mixin(Entity.class)
-public abstract class EntityMixin implements ICustomDataHolder, LivingProofDurationAccessor
+public abstract class EntityMixin implements ICustomDataHolder, EntityProofDurationAccessor
 {
 	@Unique
 	private CompoundTag ad_astra_giselle_addon$customData = new CompoundTag();
@@ -51,23 +50,19 @@ public abstract class EntityMixin implements ICustomDataHolder, LivingProofDurat
 	@Inject(method = "load", at = @At("TAIL"))
 	public void load(CompoundTag pCompound, CallbackInfo callbackInfo)
 	{
-		if (pCompound.contains(AdAstraGiselleAddon.MOD_ID, Tag.TAG_COMPOUND))
+		this.ad_astra_giselle_addon$customData = pCompound.getCompound(AdAstraGiselleAddon.MOD_ID);
+
+		if ((Entity) (Object) this instanceof LivingEntity)
 		{
-			this.ad_astra_giselle_addon$customData = pCompound.getCompound(AdAstraGiselleAddon.MOD_ID);
+			this.ad_astra_giselle_addon$proofDurations.clear();
 
-			if ((Entity) (Object) this instanceof LivingEntity)
+			CompoundTag proofDurations = this.ad_astra_giselle_addon$customData.getCompound(ProofAbstractUtils.KEY_PROOF_DURATION);
+
+			for (ProofAbstractUtils proof : ProofAbstractUtils.PROOFS)
 			{
-				this.ad_astra_giselle_addon$proofDurations.clear();
-
-				CompoundTag proofDurations = this.ad_astra_giselle_addon$customData.getCompound(ProofAbstractUtils.KEY_PROOF_DURATION);
-
-				for (ProofAbstractUtils proof : ProofAbstractUtils.PROOFS)
-				{
-					String key = proof.getDataKey();
-					int duration = proofDurations.getInt(key);
-					this.ad_astra_giselle_addon$proofDurations.put(key, duration);
-				}
-
+				String key = proof.getDataKey();
+				int duration = proofDurations.getInt(key);
+				this.ad_astra_giselle_addon$proofDurations.put(key, duration);
 			}
 
 		}
@@ -77,18 +72,14 @@ public abstract class EntityMixin implements ICustomDataHolder, LivingProofDurat
 	@Inject(method = "saveWithoutId", at = @At("TAIL"))
 	public void saveWithoutId(CompoundTag pCompound, CallbackInfoReturnable<CompoundTag> callbackInfo)
 	{
-		if ((Entity) (Object) this instanceof LivingEntity)
+		CompoundTag proofDurations = new CompoundTag();
+		this.ad_astra_giselle_addon$customData.put(ProofAbstractUtils.KEY_PROOF_DURATION, proofDurations);
+
+		for (ProofAbstractUtils proof : ProofAbstractUtils.PROOFS)
 		{
-			CompoundTag proofDurations = new CompoundTag();
-			this.ad_astra_giselle_addon$customData.put(ProofAbstractUtils.KEY_PROOF_DURATION, proofDurations);
-
-			for (ProofAbstractUtils proof : ProofAbstractUtils.PROOFS)
-			{
-				String key = proof.getDataKey();
-				int duration = this.ad_astra_giselle_addon$proofDurations.getInt(key);
-				proofDurations.putInt(key, duration);
-			}
-
+			String key = proof.getDataKey();
+			int duration = this.ad_astra_giselle_addon$proofDurations.getInt(key);
+			proofDurations.putInt(key, duration);
 		}
 
 		pCompound.put(AdAstraGiselleAddon.MOD_ID, this.ad_astra_giselle_addon$customData);
