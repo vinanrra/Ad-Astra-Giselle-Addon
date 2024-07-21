@@ -10,10 +10,11 @@ import ad_astra_giselle_addon.client.screen.GuiUtils2;
 import earth.terrarium.adastra.client.components.machines.FluidBarWidget;
 import earth.terrarium.botarium.common.fluid.base.FluidHolder;
 import mezz.jei.api.helpers.IJeiHelpers;
+import mezz.jei.api.ingredients.ITypedIngredient;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.runtime.IClickableIngredient;
-import mezz.jei.common.input.ClickableIngredient;
 import mezz.jei.common.util.ImmutableRect2i;
+import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;
 
 public class FuelLoaderGuiContainerHandler extends AddonGuiContainerHandler<FuelLoaderScreen>
@@ -74,6 +75,31 @@ public class FuelLoaderGuiContainerHandler extends AddonGuiContainerHandler<Fuel
 		{
 			return new ClickableIngredient<>(typedIngredient, new ImmutableRect2i(bounds.x, bounds.y, bounds.width, bounds.height));
 		});
+
+	}
+
+	public class ClickableIngredient<T> implements IClickableIngredient<T>
+	{
+		private final ITypedIngredient<T> value;
+		private final ImmutableRect2i area;
+
+		public ClickableIngredient(ITypedIngredient<T> value, ImmutableRect2i area)
+		{
+			this.value = value;
+			this.area = area;
+		}
+
+		@Override
+		public ITypedIngredient<T> getTypedIngredient()
+		{
+			return value;
+		}
+
+		@Override
+		public Rect2i getArea()
+		{
+			return area.toMutable();
+		}
 
 	}
 
