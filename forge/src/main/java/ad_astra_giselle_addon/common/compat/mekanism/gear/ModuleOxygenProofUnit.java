@@ -9,11 +9,6 @@ import ad_astra_giselle_addon.common.content.oxygen.IOxygenStorage;
 import ad_astra_giselle_addon.common.content.oxygen.OxygenStorageUtils;
 import ad_astra_giselle_addon.common.content.proof.ProofAbstractUtils;
 import ad_astra_giselle_addon.common.entity.LivingHelper;
-import ad_astra_giselle_addon.common.item.ItemStackReference;
-import ad_astra_giselle_addon.common.item.OxygenCanItem;
-import earth.terrarium.adastra.common.registry.ModFluids;
-import earth.terrarium.botarium.common.fluid.base.FluidContainer;
-import earth.terrarium.botarium.common.fluid.base.FluidHolder;
 import mekanism.api.Action;
 import mekanism.api.chemical.gas.GasStack;
 import mekanism.api.chemical.gas.IGasHandler;
@@ -32,7 +27,6 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.fluids.FluidType;
@@ -86,7 +80,7 @@ public class ModuleOxygenProofUnit implements ICustomModule<ModuleOxygenProofUni
 			productionRate = remain.getAmount();
 		}
 
-		productionRate = fillOxygenCan(player, productionRate);
+		productionRate = OxygenStorageUtils.insert(player, productionRate);
 
 		long oxygenUsed = productionRateFirst - productionRate;
 		FloatingLong multiply = energyUsing.multiply(oxygenUsed);
@@ -99,35 +93,6 @@ public class ModuleOxygenProofUnit implements ICustomModule<ModuleOxygenProofUni
 		int airSupply = player.getAirSupply();
 		int airFill = (int) Math.min(productionRateFirst, player.getMaxAirSupply() - airSupply);
 		player.setAirSupply(airSupply + airFill);
-	}
-
-	public long fillOxygenCan(Player player, long productionRate)
-	{
-		for (ItemStackReference item : LivingHelper.getSlotItems(player))
-		{
-			if (productionRate <= 0)
-			{
-				break;
-			}
-			else if (item.getStack().getItem() instanceof OxygenCanItem)
-			{
-				FluidContainer tank = FluidContainer.of(item);
-				FluidHolder containedStack = tank.getFirstFluid();
-				Fluid insertingFluid = ModFluids.OXYGEN.get();
-
-				if (!containedStack.isEmpty())
-				{
-					insertingFluid = containedStack.getFluid();
-				}
-
-				FluidHolder inserting = FluidHolder.of(insertingFluid, productionRate, null);
-				long inserted = tank.insertFluid(inserting, false);
-				productionRate -= inserted;
-			}
-
-		}
-
-		return productionRate;
 	}
 
 	public long getProduceRate(IModule<ModuleOxygenProofUnit> module, Player player)

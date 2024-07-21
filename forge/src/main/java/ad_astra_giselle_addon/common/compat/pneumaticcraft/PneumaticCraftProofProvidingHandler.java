@@ -46,6 +46,7 @@ public class PneumaticCraftProofProvidingHandler
 
 				if (this.useAir(living, upgradeHandler, airUsing, false))
 				{
+					OxygenStorageUtils.insert(living, airDuration);
 					living.setAirSupply(airSupply + airDuration);
 				}
 

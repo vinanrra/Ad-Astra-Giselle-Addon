@@ -10,11 +10,16 @@ import ad_astra_giselle_addon.common.compat.CompatibleManager;
 import ad_astra_giselle_addon.common.compat.create.BacktankOxygenStorage;
 import ad_astra_giselle_addon.common.entity.LivingHelper;
 import ad_astra_giselle_addon.common.item.ItemStackReference;
+import ad_astra_giselle_addon.common.item.OxygenCanItem;
 import earth.terrarium.adastra.api.systems.TemperatureApi;
+import earth.terrarium.adastra.common.registry.ModFluids;
+import earth.terrarium.botarium.common.fluid.base.FluidContainer;
+import earth.terrarium.botarium.common.fluid.base.FluidHolder;
 import earth.terrarium.botarium.common.item.ItemStackHolder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.material.Fluid;
 
 public class OxygenStorageUtils
 {
@@ -102,6 +107,35 @@ public class OxygenStorageUtils
 		}
 
 		return null;
+	}
+
+	public static long insert(LivingEntity living, long amount)
+	{
+		for (ItemStackReference item : LivingHelper.getSlotItems(living))
+		{
+			if (amount <= 0)
+			{
+				break;
+			}
+			else if (item.getStack().getItem() instanceof OxygenCanItem)
+			{
+				FluidContainer tank = FluidContainer.of(item);
+				FluidHolder containedStack = tank.getFirstFluid();
+				Fluid insertingFluid = ModFluids.OXYGEN.get();
+
+				if (!containedStack.isEmpty())
+				{
+					insertingFluid = containedStack.getFluid();
+				}
+
+				FluidHolder inserting = FluidHolder.of(insertingFluid, amount, null);
+				long inserted = tank.insertFluid(inserting, false);
+				amount -= inserted;
+			}
+
+		}
+
+		return amount;
 	}
 
 	private OxygenStorageUtils()
