@@ -14,7 +14,6 @@ import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.runtime.IClickableIngredient;
 import mezz.jei.common.input.ClickableIngredient;
 import mezz.jei.common.util.ImmutableRect2i;
-import mezz.jei.library.ingredients.TypedIngredient;
 import net.minecraft.network.chat.Component;
 
 public class FuelLoaderGuiContainerHandler extends AddonGuiContainerHandler<FuelLoaderScreen>
@@ -71,7 +70,7 @@ public class FuelLoaderGuiContainerHandler extends AddonGuiContainerHandler<Fuel
 
 	public Optional<IClickableIngredient<?>> wrap(Object ingredient, Rectangle bounds)
 	{
-		return TypedIngredient.createAndFilterInvalid(this.jeiHelpers.getIngredientManager(), ingredient).map(typedIngredient ->
+		return this.jeiHelpers.getIngredientManager().createTypedIngredient(ingredient).map(typedIngredient ->
 		{
 			return new ClickableIngredient<>(typedIngredient, new ImmutableRect2i(bounds.x, bounds.y, bounds.width, bounds.height));
 		});
