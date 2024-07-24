@@ -12,6 +12,7 @@
   "item.ad_astra_giselle_addon.sliding_door_key": "Sliding Door Key",
   "item.ad_astra_giselle_addon.sliding_door_key.tooltip1": "Right click to lock/unlock Sliding Door",
   "item.ad_astra_giselle_addon.sliding_door_key.tooltip2": "Locked door can only be opened or closed by redstone",
+  "item.ad_astra_giselle_addon.lander_icon": "Lander",
   
   "item.ad_astra_giselle_addon.fuel_loader.tooltip": "Give fuel to near Rover or Rocket",
   "item.ad_astra_giselle_addon.gravity_normalizer.tooltip": "Normalize living's gravity within range",

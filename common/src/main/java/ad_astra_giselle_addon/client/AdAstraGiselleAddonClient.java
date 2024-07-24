@@ -1,6 +1,10 @@
 package ad_astra_giselle_addon.client;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -11,6 +15,7 @@ import com.teamresourceful.resourcefulconfig.common.config.ResourcefulConfig;
 
 import ad_astra_giselle_addon.client.overlay.OxygenCanOverlay;
 import ad_astra_giselle_addon.client.renderer.blockentity.WorkingAreaBlockEntityRenderer;
+import ad_astra_giselle_addon.client.renderer.vehicle.lander.LanderIconItemRenderer;
 import ad_astra_giselle_addon.client.screen.AutomationNasaWorkbenchScreen;
 import ad_astra_giselle_addon.client.screen.FuelLoaderScreen;
 import ad_astra_giselle_addon.client.screen.GravityNormalizerScreen;
@@ -18,12 +23,17 @@ import ad_astra_giselle_addon.client.screen.RocketSensorScreen;
 import ad_astra_giselle_addon.client.util.RenderHelper;
 import ad_astra_giselle_addon.common.AdAstraGiselleAddon;
 import ad_astra_giselle_addon.common.enchantment.EnchantmentHelper2;
+import ad_astra_giselle_addon.common.item.IClientExtensionItem;
 import ad_astra_giselle_addon.common.registry.AddonBlockEntityTypes;
+import ad_astra_giselle_addon.common.registry.AddonItems;
 import ad_astra_giselle_addon.common.registry.AddonMenuTypes;
 import ad_astra_giselle_addon.common.util.TriConsumer;
 import earth.terrarium.ad_astra.client.AdAstraClient.RenderHud;
 import earth.terrarium.ad_astra.client.ClientPlatformUtils;
+import earth.terrarium.ad_astra.client.renderer.entity.vehicle.lander.LanderModel;
+import earth.terrarium.ad_astra.client.renderer.entity.vehicle.lander.LanderRenderer;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -37,6 +47,8 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 
 public class AdAstraGiselleAddonClient
 {
+	private static final Map<IClientExtensionItem, BlockEntityWithoutLevelRenderer> ITEM_RENDERERS = new HashMap<>();
+
 	private AdAstraGiselleAddonClient()
 	{
 
@@ -50,6 +62,13 @@ public class AdAstraGiselleAddonClient
 	}
 
 	public static void initializeClient()
+	{
+		registerScreens();
+
+		ITEM_RENDERERS.put(AddonItems.LANDER_ICON.get(), new LanderIconItemRenderer(LanderModel.LAYER_LOCATION, LanderRenderer.TEXTURE));
+	}
+
+	public static void registerScreens()
 	{
 		ClientPlatformUtils.registerScreen(AddonMenuTypes.FUEL_LOADER.get(), FuelLoaderScreen::new);
 		ClientPlatformUtils.registerScreen(AddonMenuTypes.AUTOMATION_NASA_WORKBENCH.get(), AutomationNasaWorkbenchScreen::new);
@@ -89,7 +108,24 @@ public class AdAstraGiselleAddonClient
 				EnchantmentHelper2.clearDescriptionsCache();
 			}
 		});
+		register.accept("itemrenderers", new ResourceManagerReloadListener()
+		{
+			@Override
+			public void onResourceManagerReload(ResourceManager pResourceManager)
+			{
+				ITEM_RENDERERS.values().forEach(e -> e.onResourceManagerReload(pResourceManager));
+			}
+		});
+	}
 
+	public static BlockEntityWithoutLevelRenderer getItemRenderer(IClientExtensionItem item)
+	{
+		return ITEM_RENDERERS.get(item);
+	}
+
+	public static Set<Entry<IClientExtensionItem, BlockEntityWithoutLevelRenderer>> getItemRenderers()
+	{
+		return ITEM_RENDERERS.entrySet();
 	}
 
 	public interface BlockEntityRendererRegister
