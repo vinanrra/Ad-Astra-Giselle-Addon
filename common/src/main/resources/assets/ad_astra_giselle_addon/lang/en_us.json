@@ -10,6 +10,7 @@
   "item.ad_astra_giselle_addon.fuel_loader.tooltip": "Give fuel to near Rover or Rocket",
   "item.ad_astra_giselle_addon.gravity_normalizer.tooltip": "Normalize living's gravity within range",
   "item.ad_astra_giselle_addon.rocket_sensor.tooltip": "Output near Rocket's state as redstone signal through Comparator",
+  "item.ad_astra_giselle_addon.lander_icon": "Lander",
   
   "container.ad_astra_giselle_addon.fuel_loader": "Fuel Loader",
   "container.ad_astra_giselle_addon.automation_nasa_workbench": "Automation NASA Workbench",

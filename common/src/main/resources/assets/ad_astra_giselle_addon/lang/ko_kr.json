@@ -10,6 +10,7 @@
   "item.ad_astra_giselle_addon.fuel_loader.tooltip": "주변 로버나 로켓의 연료를 채웁니다",
   "item.ad_astra_giselle_addon.gravity_normalizer.tooltip": "범위내 생명체의 중력을 정규화합니다",
   "item.ad_astra_giselle_addon.rocket_sensor.tooltip": "비교기를 통해 주변 로켓의 상태를 레드스톤 신호로 출력합니다",
+  "item.ad_astra_giselle_addon.lander_icon": "착륙선",
   
   "container.ad_astra_giselle_addon.fuel_loader": "연료 적재기",
   "container.ad_astra_giselle_addon.automation_nasa_workbench": "자동화 NASA 제작대",

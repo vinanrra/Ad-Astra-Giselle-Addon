@@ -6,6 +6,7 @@ import java.util.concurrent.Executor;
 import ad_astra_giselle_addon.common.AdAstraGiselleAddon;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
+import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
@@ -22,6 +23,7 @@ public class AdAstraGiselleAddonClientFabric implements ClientModInitializer
 		AdAstraGiselleAddonClient.initializeClient();
 		AdAstraGiselleAddonClient.onRegisterHud(hud -> HudRenderCallback.EVENT.register(hud::renderHud));
 		AdAstraGiselleAddonClient.registerItemTooltip(register -> ItemTooltipCallback.EVENT.register(register::accept));
+		AdAstraGiselleAddonClient.getItemRenderers().forEach(entry -> BuiltinItemRendererRegistry.INSTANCE.register(entry.getKey(), entry.getValue()::renderByItem));
 
 		AdAstraGiselleAddonClient.registerReloadListeners((id, listener) -> ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new IdentifiableResourceReloadListener()
 		{

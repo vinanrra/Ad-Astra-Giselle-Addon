@@ -1,6 +1,10 @@
 package ad_astra_giselle_addon.client;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -17,13 +21,19 @@ import ad_astra_giselle_addon.client.screen.GravityNormalizerScreen;
 import ad_astra_giselle_addon.client.screen.RocketSensorScreen;
 import ad_astra_giselle_addon.common.AdAstraGiselleAddon;
 import ad_astra_giselle_addon.common.enchantment.EnchantmentHelper2;
+import ad_astra_giselle_addon.common.item.IClientExtensionItem;
 import ad_astra_giselle_addon.common.registry.AddonBlockEntityTypes;
+import ad_astra_giselle_addon.common.registry.AddonItems;
 import ad_astra_giselle_addon.common.registry.AddonMenuTypes;
 import ad_astra_giselle_addon.common.util.TriConsumer;
 import earth.terrarium.adastra.client.ClientPlatformUtils;
+import earth.terrarium.adastra.client.models.entities.vehicles.LanderModel;
+import earth.terrarium.adastra.client.renderers.entities.vehicles.LanderRenderer;
+import earth.terrarium.adastra.client.renderers.entities.vehicles.RocketRenderer;
 import earth.terrarium.botarium.client.ClientHooks;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
@@ -36,6 +46,8 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 
 public class AdAstraGiselleAddonClient
 {
+	private static final Map<IClientExtensionItem, BlockEntityWithoutLevelRenderer> ITEM_RENDERERS = new HashMap<>();
+
 	private AdAstraGiselleAddonClient()
 	{
 
@@ -52,6 +64,8 @@ public class AdAstraGiselleAddonClient
 	{
 		registerScreens();
 		registerBlockEntityRenderer();
+
+		ITEM_RENDERERS.put(AddonItems.LANDER_ICON.get(), new RocketRenderer.ItemRenderer(LanderModel.LAYER, LanderRenderer.TEXTURE));
 	}
 
 	public static void registerScreens()
@@ -89,7 +103,24 @@ public class AdAstraGiselleAddonClient
 				EnchantmentHelper2.clearDescriptionsCache();
 			}
 		});
+		register.accept("itemrenderers", new ResourceManagerReloadListener()
+		{
+			@Override
+			public void onResourceManagerReload(ResourceManager pResourceManager)
+			{
+				ITEM_RENDERERS.values().forEach(e -> e.onResourceManagerReload(pResourceManager));
+			}
+		});
+	}
 
+	public static BlockEntityWithoutLevelRenderer getItemRenderer(IClientExtensionItem item)
+	{
+		return ITEM_RENDERERS.get(item);
+	}
+
+	public static Set<Entry<IClientExtensionItem, BlockEntityWithoutLevelRenderer>> getItemRenderers()
+	{
+		return ITEM_RENDERERS.entrySet();
 	}
 
 	public interface BlockEntityRendererRegister
