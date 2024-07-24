@@ -6,7 +6,7 @@ import java.util.List;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import earth.terrarium.ad_astra.common.entity.vehicle.Rocket;
+import earth.terrarium.ad_astra.common.entity.vehicle.Vehicle;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
@@ -68,6 +68,8 @@ public interface IRocketSensingType
 
 	public List<Component> getTooltip();
 
-	public int getAnalogSignal(Rocket rocket);
+	public boolean test(Vehicle vehicle);
+
+	public int getAnalogSignal(Vehicle vehicle);
 
 }

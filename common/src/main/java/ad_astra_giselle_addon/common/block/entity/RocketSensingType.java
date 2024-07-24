@@ -6,9 +6,12 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import ad_astra_giselle_addon.common.AdAstraGiselleAddon;
+import ad_astra_giselle_addon.common.registry.AddonItems;
 import ad_astra_giselle_addon.common.util.RedstoneUtils;
 import earth.terrarium.ad_astra.common.config.VehiclesConfig;
+import earth.terrarium.ad_astra.common.entity.vehicle.Lander;
 import earth.terrarium.ad_astra.common.entity.vehicle.Rocket;
+import earth.terrarium.ad_astra.common.entity.vehicle.Vehicle;
 import earth.terrarium.ad_astra.common.registry.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -21,7 +24,13 @@ public enum RocketSensingType implements IRocketSensingType
 	DISABLED(AdAstraGiselleAddon.rl("disabled"))
 		{
 			@Override
-			public int getAnalogSignal(Rocket rocket)
+			public boolean test(Vehicle vehicle)
+			{
+				return vehicle instanceof Rocket;
+			}
+
+			@Override
+			public int getAnalogSignal(Vehicle vehicle)
 			{
 				return Redstone.SIGNAL_NONE;
 			}
@@ -36,7 +45,13 @@ public enum RocketSensingType implements IRocketSensingType
 	FOUND(AdAstraGiselleAddon.rl("found"))
 		{
 			@Override
-			public int getAnalogSignal(Rocket rocket)
+			public boolean test(Vehicle vehicle)
+			{
+				return vehicle instanceof Rocket;
+			}
+
+			@Override
+			public int getAnalogSignal(Vehicle vehicle)
 			{
 				return Redstone.SIGNAL_MAX;
 			}
@@ -51,8 +66,15 @@ public enum RocketSensingType implements IRocketSensingType
 	FLYING_UP(AdAstraGiselleAddon.rl("flying_up"))
 		{
 			@Override
-			public int getAnalogSignal(Rocket rocket)
+			public boolean test(Vehicle vehicle)
 			{
+				return vehicle instanceof Rocket;
+			}
+
+			@Override
+			public int getAnalogSignal(Vehicle vehicle)
+			{
+				Rocket rocket = (Rocket) vehicle;
 				return RedstoneUtils.onOff(rocket.isFlying() && rocket.getCountdownTicks() <= 0);
 			}
 
@@ -66,8 +88,15 @@ public enum RocketSensingType implements IRocketSensingType
 	FUEL_LOADED(AdAstraGiselleAddon.rl("fuel_loaded"))
 		{
 			@Override
-			public int getAnalogSignal(Rocket rocket)
+			public boolean test(Vehicle vehicle)
 			{
+				return vehicle instanceof Rocket;
+			}
+
+			@Override
+			public int getAnalogSignal(Vehicle vehicle)
+			{
+				Rocket rocket = (Rocket) vehicle;
 				return RedstoneUtils.onOff((rocket.getTankAmount() >= Rocket.getRequiredAmountForLaunch(rocket.getTankFluid())));
 			}
 
@@ -81,8 +110,15 @@ public enum RocketSensingType implements IRocketSensingType
 	LAUNCH_COUNTDOWN(AdAstraGiselleAddon.rl("launch_countdown"), 2)
 		{
 			@Override
-			public int getAnalogSignal(Rocket rocket)
+			public boolean test(Vehicle vehicle)
 			{
+				return vehicle instanceof Rocket;
+			}
+
+			@Override
+			public int getAnalogSignal(Vehicle vehicle)
+			{
+				Rocket rocket = (Rocket) vehicle;
 				int max = VehiclesConfig.RocketConfig.countDownTicks;
 				return rocket.isFlying() ? RedstoneUtils.range((double) (max - rocket.getCountdownTicks()) / max) : Redstone.SIGNAL_MIN;
 			}
@@ -91,6 +127,27 @@ public enum RocketSensingType implements IRocketSensingType
 			public ItemStack getDisplayIcon()
 			{
 				return new ItemStack(ModItems.LAUNCH_PAD.get());
+			}
+
+		},
+	LANDER_FOUND(AdAstraGiselleAddon.rl("lander_found"), 1)
+		{
+			@Override
+			public boolean test(Vehicle vehicle)
+			{
+				return vehicle instanceof Lander;
+			}
+
+			@Override
+			public int getAnalogSignal(Vehicle vehicle)
+			{
+				return Redstone.SIGNAL_MAX;
+			}
+
+			@Override
+			public ItemStack getDisplayIcon()
+			{
+				return new ItemStack(AddonItems.LANDER_ICON.get());
 			}
 
 		},
@@ -142,5 +199,8 @@ public enum RocketSensingType implements IRocketSensingType
 	}
 
 	@Override
-	public abstract int getAnalogSignal(Rocket rocket);
+	public abstract boolean test(Vehicle vehicle);
+
+	@Override
+	public abstract int getAnalogSignal(Vehicle vehicle);
 }

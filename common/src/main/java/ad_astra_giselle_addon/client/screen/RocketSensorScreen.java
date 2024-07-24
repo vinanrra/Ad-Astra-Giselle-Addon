@@ -24,7 +24,7 @@ public class RocketSensorScreen extends AddonMachineScreen<RocketSensorBlockEnti
 	{
 		super(handler, inventory, title, TEXTURE);
 		this.imageWidth = 176;
-		this.imageHeight = 160;
+		this.imageHeight = 180;
 	}
 
 	@Override
@@ -45,6 +45,14 @@ public class RocketSensorScreen extends AddonMachineScreen<RocketSensorBlockEnti
 
 		this.invertedCheckBox = new CustomCheckbox(x0, y1 + 3, x1 - x0, 10, Component.translatable(INVERTED_KEY), rocketSensor.isInverted());
 		this.addRenderableWidget(this.invertedCheckBox);
+
+		var selected = this.list.getSelected();
+
+		if (selected != null)
+		{
+			this.list.centerScrollOn(this.list.getSelected());
+		}
+
 	}
 
 	@Override

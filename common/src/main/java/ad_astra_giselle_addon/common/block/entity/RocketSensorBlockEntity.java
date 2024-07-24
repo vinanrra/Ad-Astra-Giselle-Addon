@@ -6,7 +6,7 @@ import org.jetbrains.annotations.Nullable;
 import ad_astra_giselle_addon.common.config.MachinesConfig;
 import ad_astra_giselle_addon.common.menu.RocketSensorMenu;
 import ad_astra_giselle_addon.common.registry.AddonBlockEntityTypes;
-import earth.terrarium.ad_astra.common.entity.vehicle.Rocket;
+import earth.terrarium.ad_astra.common.entity.vehicle.Vehicle;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Inventory;
@@ -29,7 +29,7 @@ public class RocketSensorBlockEntity extends AddonMachineBlockEntity implements 
 	private boolean inverted;
 	private int analogSignal;
 
-	private Rocket cachedTarget;
+	private Vehicle cachedTarget;
 
 	public RocketSensorBlockEntity(BlockPos pos, BlockState state)
 	{
@@ -74,8 +74,9 @@ public class RocketSensorBlockEntity extends AddonMachineBlockEntity implements 
 
 		if (!level.isClientSide())
 		{
-			Rocket newTarget = this.findRocket();
-			int analogSignal = newTarget != null ? this.getSensingType().getAnalogSignal(newTarget) : Redstone.SIGNAL_NONE;
+			IRocketSensingType sensingType = this.getSensingType();
+			Vehicle newTarget = this.findTarget(sensingType);
+			int analogSignal = newTarget != null ? sensingType.getAnalogSignal(newTarget) : Redstone.SIGNAL_NONE;
 
 			if (this.isInverted())
 			{
@@ -98,11 +99,11 @@ public class RocketSensorBlockEntity extends AddonMachineBlockEntity implements 
 
 	}
 
-	public Rocket findRocket()
+	public Vehicle findTarget(IRocketSensingType sensingType)
 	{
 		Level level = this.getLevel();
 		AABB workingArea = this.getWorkingArea();
-		return level.getEntitiesOfClass(Rocket.class, workingArea).stream().findFirst().orElse(null);
+		return level.getEntitiesOfClass(Vehicle.class, workingArea).stream().filter(sensingType::test).findFirst().orElse(null);
 	}
 
 	@Override
@@ -134,7 +135,7 @@ public class RocketSensorBlockEntity extends AddonMachineBlockEntity implements 
 		return this.getWorkingArea(this.getBlockPos(), range);
 	}
 
-	public Rocket getCachedTarget()
+	public Vehicle getCachedTarget()
 	{
 		return this.cachedTarget;
 	}

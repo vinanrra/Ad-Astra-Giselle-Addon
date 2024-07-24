@@ -24,9 +24,16 @@ public class RocketSensingTypeList extends ObjectSelectionList<RocketSensingType
 		super(pMinecraft, pWidth, pHeight, pY0, pY1, 20);
 		this.screen = screen;
 		this.rocketSensor = rocketSensor;
+		this.setRenderSelection(false);
 		this.setRenderTopAndBottom(false);
 		this.setRenderBackground(false);
 		this.refreshList();
+	}
+
+	@Override
+	public void centerScrollOn(RocketSensingTypeList.RocketSensingTypeEntry entry)
+	{
+		super.centerScrollOn(entry);
 	}
 
 	@Override
@@ -42,7 +49,7 @@ public class RocketSensingTypeList extends ObjectSelectionList<RocketSensingType
 	{
 		RocketSensingTypeEntry entry = this.getEntryAtPosition(mouseX, mouseY);
 
-		if (entry != null)
+		if (entry != null && this.y0 <= mouseY && mouseY <= this.y1)
 		{
 			this.getScreen().renderComponentTooltip(poseStack, entry.getType().getTooltip(), mouseX, mouseY);
 		}
@@ -112,11 +119,30 @@ public class RocketSensingTypeList extends ObjectSelectionList<RocketSensingType
 			int y0 = Math.max(pTop, parent.y0 + 2);
 			int y1 = Math.min(pTop + pHeight, parent.y1 - 2);
 
-			GuiComponent.fill(pPoseStack, pLeft - 2, pTop + pHeight + 2, pLeft + pWidth - 2, pTop + pHeight + 3, 0xFF000000);
-
-			try (var si = RenderUtils.createScissorBox(minecraft, pPoseStack, pLeft - 2, y0 - 2, pWidth + 4, y1 - y0 + 4))
+			if (y1 - y0 <= 0)
 			{
-				if (parent.getSelected() == this)
+				return;
+			}
+
+			int y = pTop + pHeight + 1;
+			int y2 = Math.max(y + 0, parent.y0);
+			int y3 = Math.min(y + 1, parent.y1 - 1);
+
+			if (y3 > y2)
+			{
+				try (var si = RenderUtils.createScissorBox(minecraft, pPoseStack, pLeft - 2, y2, pWidth, y3 - y2))
+				{
+					GuiComponent.fill(pPoseStack, pLeft - 2, y, pLeft + pWidth - 2, y + 1, 0xFF000000);
+				}
+
+			}
+
+			if (parent.getSelected() == this)
+			{
+				int y4 = Math.max(pTop - 2, parent.y0 + 2);
+				int y5 = Math.min(pTop + pHeight + 2, parent.y1 - 2);
+
+				try (var si = RenderUtils.createScissorBox(minecraft, pPoseStack, pLeft - 2, y4, pWidth, y5 - y4))
 				{
 					int i = parent.isFocused() ? -1 : -8355712;
 					parent.renderSelection(pPoseStack, pTop, pWidth, pHeight, i, -16777216);
@@ -139,7 +165,7 @@ public class RocketSensingTypeList extends ObjectSelectionList<RocketSensingType
 		}
 
 		@Override
-		public boolean mouseClicked(double p_mouseClicked_1_, double p_mouseClicked_3_, int p_mouseClicked_5_)
+		public boolean mouseClicked(double mouseX, double mouseY, int button)
 		{
 			AddonNetwork.CHANNEL.sendToServer(new RocketSensorMessage.SensingType(this.getParent().getRocketSensor(), this.getType()));
 			return true;
