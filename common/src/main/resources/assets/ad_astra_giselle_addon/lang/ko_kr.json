@@ -61,6 +61,8 @@
   "rocket_sensing_type.ad_astra_giselle_addon.launch_countdown": "발사 카운트다운",
   "rocket_sensing_type.ad_astra_giselle_addon.launch_countdown.desc1": "발사 카운트다운을 아날로그로 출력",
   "rocket_sensing_type.ad_astra_giselle_addon.launch_countdown.desc2": "처음에는 0, 카운트다운이 감소할 수록 출력 증가",
+  "rocket_sensing_type.ad_astra_giselle_addon.lander_found": "착륙선 찾음",
+  "rocket_sensing_type.ad_astra_giselle_addon.lander_found.desc": "착륙선을 찾으면 %2$s 출력",
   
   
   "jei.category.ad_astra_giselle_addon.fuel_loader": "연료 적재기",

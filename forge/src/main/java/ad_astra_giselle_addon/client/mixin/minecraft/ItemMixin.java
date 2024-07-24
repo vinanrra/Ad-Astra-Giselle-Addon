@@ -16,7 +16,7 @@ import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 @Mixin(value = Item.class)
 public abstract class ItemMixin
 {
-	@Inject(method = "initializeClient", at = @At("TAIL"))
+	@Inject(method = "initializeClient", at = @At("TAIL"), remap = false)
 	private void initializeClient(Consumer<IClientItemExtensions> consumer, CallbackInfo ci)
 	{
 		if (this instanceof IClientExtensionItem item)

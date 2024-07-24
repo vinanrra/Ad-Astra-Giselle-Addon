@@ -61,6 +61,8 @@
   "rocket_sensing_type.ad_astra_giselle_addon.launch_countdown": "Launch Countdown",
   "rocket_sensing_type.ad_astra_giselle_addon.launch_countdown.desc1": "Output analog about launch countdown",
   "rocket_sensing_type.ad_astra_giselle_addon.launch_countdown.desc2": "Output 0 at first, increases as countdown lower",
+  "rocket_sensing_type.ad_astra_giselle_addon.lander_found": "Lander Found",
+  "rocket_sensing_type.ad_astra_giselle_addon.lander_found.desc": "Output %2$s if lander found",
   
   
   "jei.category.ad_astra_giselle_addon.fuel_loader": "Fuel Loader",

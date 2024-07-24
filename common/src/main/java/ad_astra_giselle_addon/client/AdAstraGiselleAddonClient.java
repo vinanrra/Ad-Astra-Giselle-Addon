@@ -15,6 +15,7 @@ import com.teamresourceful.resourcefulconfig.common.config.ResourcefulConfig;
 
 import ad_astra_giselle_addon.client.overlay.OxygenCanOverlay;
 import ad_astra_giselle_addon.client.renderer.blockentity.WorkingAreaBlockEntityRenderer;
+import ad_astra_giselle_addon.client.renderer.vehicle.lander.LanderIconItemRenderer;
 import ad_astra_giselle_addon.client.screen.AutomationNasaWorkbenchScreen;
 import ad_astra_giselle_addon.client.screen.FuelLoaderScreen;
 import ad_astra_giselle_addon.client.screen.GravityNormalizerScreen;
@@ -29,7 +30,6 @@ import ad_astra_giselle_addon.common.util.TriConsumer;
 import earth.terrarium.adastra.client.ClientPlatformUtils;
 import earth.terrarium.adastra.client.models.entities.vehicles.LanderModel;
 import earth.terrarium.adastra.client.renderers.entities.vehicles.LanderRenderer;
-import earth.terrarium.adastra.client.renderers.entities.vehicles.RocketRenderer;
 import earth.terrarium.botarium.client.ClientHooks;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.gui.screens.Screen;
@@ -65,7 +65,7 @@ public class AdAstraGiselleAddonClient
 		registerScreens();
 		registerBlockEntityRenderer();
 
-		ITEM_RENDERERS.put(AddonItems.LANDER_ICON.get(), new RocketRenderer.ItemRenderer(LanderModel.LAYER, LanderRenderer.TEXTURE));
+		ITEM_RENDERERS.put(AddonItems.LANDER_ICON.get(), new LanderIconItemRenderer(LanderModel.LAYER, LanderRenderer.TEXTURE));
 	}
 
 	public static void registerScreens()

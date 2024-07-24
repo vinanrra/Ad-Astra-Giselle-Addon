@@ -12,7 +12,7 @@ import earth.terrarium.adastra.common.blockentities.base.sideconfig.Configuratio
 import earth.terrarium.adastra.common.blockentities.base.sideconfig.ConfigurationEntry;
 import earth.terrarium.adastra.common.blockentities.base.sideconfig.ConfigurationType;
 import earth.terrarium.adastra.common.constants.ConstantComponents;
-import earth.terrarium.adastra.common.entities.vehicles.Rocket;
+import earth.terrarium.adastra.common.entities.vehicles.Vehicle;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -42,7 +42,7 @@ public class RocketSensorBlockEntity extends ContainerMachineBlockEntity impleme
 	private boolean inverted;
 	private int analogSignal;
 
-	private Rocket cachedTarget;
+	private Vehicle cachedTarget;
 
 	public RocketSensorBlockEntity(BlockPos pos, BlockState state)
 	{
@@ -85,37 +85,42 @@ public class RocketSensorBlockEntity extends ContainerMachineBlockEntity impleme
 	{
 		super.serverTick(level, time, state, pos);
 
-		Rocket newTarget = this.findRocket();
-		int analogSignal = newTarget != null ? this.getSensingType().getAnalogSignal(newTarget) : Redstone.SIGNAL_NONE;
+		if (this.canFunction())
+		{
+			IRocketSensingType sensingType = this.getSensingType();
+			Vehicle newTarget = this.findTarget(sensingType);
+			int analogSignal = newTarget != null ? sensingType.getAnalogSignal(newTarget) : Redstone.SIGNAL_NONE;
 
-		if (this.isInverted())
-		{
-			analogSignal = Redstone.SIGNAL_MAX - analogSignal;
-		}
+			if (this.isInverted())
+			{
+				analogSignal = Redstone.SIGNAL_MAX - analogSignal;
+			}
 
-		if (this.getCachedTarget() != newTarget)
-		{
-			this.cachedTarget = newTarget;
-			this.analogSignal = analogSignal;
-			this.setChanged();
-			this.sync();
-			this.setChanged();
-		}
-		else if (this.getAnalogSignal() != analogSignal)
-		{
-			this.analogSignal = analogSignal;
-			this.setChanged();
-			this.sync();
-			this.setChanged();
+			if (this.getCachedTarget() != newTarget)
+			{
+				this.cachedTarget = newTarget;
+				this.analogSignal = analogSignal;
+				this.setChanged();
+				this.sync();
+				this.setChanged();
+			}
+			else if (this.getAnalogSignal() != analogSignal)
+			{
+				this.analogSignal = analogSignal;
+				this.setChanged();
+				this.sync();
+				this.setChanged();
+			}
+
 		}
 
 	}
 
-	public Rocket findRocket()
+	public Vehicle findTarget(IRocketSensingType sensingType)
 	{
 		Level level = this.getLevel();
 		AABB workingArea = this.getWorkingArea();
-		return level.getEntitiesOfClass(Rocket.class, workingArea).stream().findFirst().orElse(null);
+		return level.getEntitiesOfClass(Vehicle.class, workingArea).stream().filter(sensingType::test).findFirst().orElse(null);
 	}
 
 	@Override
@@ -148,7 +153,7 @@ public class RocketSensorBlockEntity extends ContainerMachineBlockEntity impleme
 		return this.getWorkingArea(this.getBlockPos(), range);
 	}
 
-	public Rocket getCachedTarget()
+	public Vehicle getCachedTarget()
 	{
 		return this.cachedTarget;
 	}
