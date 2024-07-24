@@ -6,6 +6,7 @@ import top.theillusivec4.curios.api.CuriosApi;
 
 public class CuriosHelper
 {
+	@SuppressWarnings({"removal", "deprecation"})
 	public static IItemHandlerModifiable getEquippedCurios(LivingEntity entity)
 	{
 		return CuriosApi.getCuriosHelper().getEquippedCurios(entity).orElse(null);

@@ -65,7 +65,7 @@ public abstract class AddonMachineScreen<MENU extends MachineMenu<BLOCK_ENTITY>,
 	{
 		Builder builder = super.createOptionsBar();
 
-		if (this.entity instanceof IWorkingAreaBlockEntity blockEntity)
+		if (this.entity instanceof IWorkingAreaBlockEntity)
 		{
 			this.workingAreaVisibleButton = this.createWorkingAreaShowMode();
 			builder.addElement(0, this.workingAreaVisibleButton);
