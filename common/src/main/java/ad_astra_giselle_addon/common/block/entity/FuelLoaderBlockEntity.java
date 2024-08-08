@@ -1,5 +1,6 @@
 package ad_astra_giselle_addon.common.block.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -19,7 +20,9 @@ import earth.terrarium.adastra.common.blockentities.base.sideconfig.Configuratio
 import earth.terrarium.adastra.common.blockentities.base.sideconfig.ConfigurationEntry;
 import earth.terrarium.adastra.common.blockentities.base.sideconfig.ConfigurationType;
 import earth.terrarium.adastra.common.constants.ConstantComponents;
+import earth.terrarium.adastra.common.entities.vehicles.Rocket;
 import earth.terrarium.adastra.common.entities.vehicles.Vehicle;
+import earth.terrarium.adastra.common.tags.ModFluidTags;
 import earth.terrarium.adastra.common.utils.TransferUtils;
 import earth.terrarium.botarium.common.fluid.FluidConstants;
 import earth.terrarium.botarium.common.fluid.base.BotariumFluidBlock;
@@ -33,12 +36,14 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.AABB;
 
 public class FuelLoaderBlockEntity extends ContainerMachineBlockEntity implements BotariumFluidBlock<WrappedBlockFluidContainer>, IRangedWorkingAreaBlockEntity
@@ -55,6 +60,25 @@ public class FuelLoaderBlockEntity extends ContainerMachineBlockEntity implement
 	public static final int[] FLUID_SINK_SLOTS = {1};
 	public static final int[] FLUID_SLOTS = ArrayUtils.addAll(FLUID_SOURCE_SLOTS, FLUID_SINK_SLOTS);
 	public static final int CONTAINER_SIZE = FLUID_SLOTS.length;
+
+	public static List<TagKey<Fluid>> getFluidTags()
+	{
+		List<TagKey<Fluid>> list = new ArrayList<>();
+		list.add(ModFluidTags.TIER_1_ROVER_FUEL);
+		Rocket.ROCKET_TO_PROPERTIES.values().stream().map(i -> i.fuel()).forEach(list::add);
+
+		return list;
+	}
+
+	public static boolean isFuel(FluidHolder fluidHolder)
+	{
+		return FuelLoaderBlockEntity.isFuel(fluidHolder.getFluid());
+	}
+
+	public static boolean isFuel(Fluid fluid)
+	{
+		return getFluidTags().stream().anyMatch(tag -> FluidPredicates.hasTag(fluid, tag));
+	}
 
 	private boolean workingAreaVisible;
 	private WrappedBlockFluidContainer fluidTank;
@@ -90,7 +114,7 @@ public class FuelLoaderBlockEntity extends ContainerMachineBlockEntity implement
 	{
 		if (this.fluidTank == null)
 		{
-			this.fluidTank = new WrappedBlockFluidContainer(this, new SimpleFluidContainer(tank -> FluidConstants.fromMillibuckets(MachinesConfig.FUEL_LOADER_FLUID_CAPACITY), 1, FluidPredicates::isFuel));
+			this.fluidTank = new WrappedBlockFluidContainer(this, new SimpleFluidContainer(tank -> FluidConstants.fromMillibuckets(MachinesConfig.FUEL_LOADER_FLUID_CAPACITY), 1, (tank, fluid) -> isFuel(fluid)));
 		}
 
 		return this.fluidTank;
@@ -129,7 +153,7 @@ public class FuelLoaderBlockEntity extends ContainerMachineBlockEntity implement
 
 			if (fluidContainer != null)
 			{
-				return fluidContainer.getFluids().stream().anyMatch(FluidPredicates::isFuel);
+				return fluidContainer.getFluids().stream().anyMatch(FuelLoaderBlockEntity::isFuel);
 			}
 
 			return false;
@@ -151,7 +175,7 @@ public class FuelLoaderBlockEntity extends ContainerMachineBlockEntity implement
 
 			if (fluidContainer != null)
 			{
-				return !fluidContainer.getFluids().stream().anyMatch(FluidPredicates::isFuel);
+				return !fluidContainer.getFluids().stream().anyMatch(FuelLoaderBlockEntity::isFuel);
 			}
 
 		}
@@ -186,7 +210,7 @@ public class FuelLoaderBlockEntity extends ContainerMachineBlockEntity implement
 
 			if (source != null)
 			{
-				FluidUtils2.moveFluidAny(source, tank, FluidPredicates::isFuel, false);
+				FluidUtils2.moveFluidAny(source, tank, FuelLoaderBlockEntity::isFuel, false);
 			}
 
 		}

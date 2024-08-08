@@ -1,7 +1,7 @@
 package ad_astra_giselle_addon.client.compat;
 
 import ad_astra_giselle_addon.common.AdAstraGiselleAddon;
-import ad_astra_giselle_addon.common.fluid.FluidPredicates;
+import ad_astra_giselle_addon.common.block.entity.FuelLoaderBlockEntity;
 import ad_astra_giselle_addon.common.registry.ObjectRegistry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -47,7 +47,7 @@ public class RecipeHelper
 
 		public static boolean testFluid(Fluid fluid)
 		{
-			return FluidPredicates.isFuel(fluid) && fluid.isSource(fluid.defaultFluidState());
+			return FuelLoaderBlockEntity.isFuel(fluid) && fluid.isSource(fluid.defaultFluidState());
 		}
 
 	}
