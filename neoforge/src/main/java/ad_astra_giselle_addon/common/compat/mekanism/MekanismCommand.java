@@ -33,11 +33,15 @@ public class MekanismCommand
 	private static ItemStack makeFull(ItemMekaSuitArmor item, IModuleDataProvider<?>... moduleProviders)
 	{
 		ItemStack stack = new ItemStack(item);
-		ModuleContainer moduleContainer = ModuleHelper.get().getModuleContainer(stack).get();
+		ModuleContainer moduleContainer = ModuleHelper.get().getModuleContainerNullable(stack);
 
-		for (IModuleDataProvider<?> moduleProvider : moduleProviders)
+		if (moduleContainer != null)
 		{
-			moduleContainer.addModule(moduleProvider, moduleProvider.getModuleData().getMaxStackSize());
+			for (IModuleDataProvider<?> moduleProvider : moduleProviders)
+			{
+				moduleContainer.addModule(moduleProvider, moduleProvider.getModuleData().getMaxStackSize());
+			}
+
 		}
 
 		return StorageUtils.getFilledEnergyVariant(stack);

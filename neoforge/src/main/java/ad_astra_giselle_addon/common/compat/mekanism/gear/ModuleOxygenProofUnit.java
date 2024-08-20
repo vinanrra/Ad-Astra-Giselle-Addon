@@ -137,11 +137,11 @@ public class ModuleOxygenProofUnit implements ICustomModule<ModuleOxygenProofUni
 	public long getProduceRate(IModule<ModuleOxygenProofUnit> module, Player player)
 	{
 		float eyeHeight = player.getEyeHeight();
-		Map<FluidType, FluidInDetails> fluidsIn = MekanismUtils.getFluidsIn(player, bb ->
+		Map<FluidType, FluidInDetails> fluidsIn = MekanismUtils.getFluidsIn(player, eyeHeight, (bb, data) ->
 		{
 			double centerX = (bb.minX + bb.maxX) / 2;
 			double centerZ = (bb.minZ + bb.maxZ) / 2;
-			return new AABB(centerX, Math.min(bb.minY + eyeHeight - 0.27, bb.maxY), centerZ, centerX, Math.min(bb.minY + eyeHeight - 0.14, bb.maxY), centerZ);
+			return new AABB(centerX, Math.min(bb.minY + data - 0.27, bb.maxY), centerZ, centerX, Math.min(bb.minY + data - 0.14, bb.maxY), centerZ);
 		});
 		if (fluidsIn.entrySet().stream().anyMatch(entry -> entry.getKey() == NeoForgeMod.WATER_TYPE.value() && entry.getValue().getMaxHeight() >= 0.11))
 		{
